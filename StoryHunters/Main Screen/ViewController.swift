@@ -7,11 +7,17 @@
 
 import UIKit
 import MapKit
+import FirebaseAuth
+
 
 class ViewController: UIViewController {
     let mapView = MapView()
     
+    var handleAuth: AuthStateDidChangeListenerHandle?
+    var currentUser:FirebaseAuth.User?
+    
     let locationManager = CLLocationManager()
+
     
     override func loadView() {
         view = mapView
@@ -41,6 +47,21 @@ class ViewController: UIViewController {
         
         self.setupRightBarButton()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+            super.viewWillAppear(animated)
+            
+            //MARK: handling if the Authentication state is changed (sign in, sign out, register)...
+            handleAuth = Auth.auth().addStateDidChangeListener{ auth, user in
+                if user == nil{
+                    let loginController = LoginScreenViewController()
+                    loginController.modalPresentationStyle = .fullScreen
+                    self.present(loginController, animated: true, completion: nil)
+                }else{
+                    //MARK: the user is signed in...
+                }
+            }
+        }
     
     @objc func onButtonCurrentLocationTapped(){
         if let uwLocation = locationManager.location{

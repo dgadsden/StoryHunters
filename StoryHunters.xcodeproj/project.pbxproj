@@ -7,15 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1432FD7D2CDC22FD00DE5A55 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1432FD7C2CDC22FD00DE5A55 /* AppDelegate.swift */; };
-		1432FD7F2CDC22FD00DE5A55 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1432FD7E2CDC22FD00DE5A55 /* SceneDelegate.swift */; };
-		1432FD812CDC22FD00DE5A55 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1432FD802CDC22FD00DE5A55 /* ViewController.swift */; };
-		1432FD842CDC22FE00DE5A55 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 1432FD832CDC22FE00DE5A55 /* Base */; };
-		1432FD862CDC22FF00DE5A55 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1432FD852CDC22FF00DE5A55 /* Assets.xcassets */; };
-		1432FD892CDC22FF00DE5A55 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 1432FD882CDC22FF00DE5A55 /* Base */; };
 		1432FD942CDC22FF00DE5A55 /* StoryHuntersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1432FD932CDC22FF00DE5A55 /* StoryHuntersTests.swift */; };
 		1432FD9E2CDC22FF00DE5A55 /* StoryHuntersUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1432FD9D2CDC22FF00DE5A55 /* StoryHuntersUITests.swift */; };
 		1432FDA02CDC22FF00DE5A55 /* StoryHuntersUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1432FD9F2CDC22FF00DE5A55 /* StoryHuntersUITestsLaunchTests.swift */; };
+		27DFB25C2CDD50CA00C403B5 /* BooksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB2472CDD50CA00C403B5 /* BooksTableViewCell.swift */; };
+		27DFB25D2CDD50CA00C403B5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB2502CDD50CA00C403B5 /* ViewController.swift */; };
+		27DFB25E2CDD50CA00C403B5 /* LibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB2482CDD50CA00C403B5 /* LibraryScreen.swift */; };
+		27DFB25F2CDD50CA00C403B5 /* Configs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB2542CDD50CA00C403B5 /* Configs.swift */; };
+		27DFB2602CDD50CA00C403B5 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB24F2CDD50CA00C403B5 /* Place.swift */; };
+		27DFB2612CDD50CA00C403B5 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB24D2CDD50CA00C403B5 /* LocationManager.swift */; };
+		27DFB2622CDD50CA00C403B5 /* AddBookScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB2452CDD50CA00C403B5 /* AddBookScreenViewController.swift */; };
+		27DFB2632CDD50CA00C403B5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB25A2CDD50CA00C403B5 /* SceneDelegate.swift */; };
+		27DFB2642CDD50CA00C403B5 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB24B2CDD50CA00C403B5 /* MapView.swift */; };
+		27DFB2652CDD50CA00C403B5 /* LibraryScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB2492CDD50CA00C403B5 /* LibraryScreenViewController.swift */; };
+		27DFB2662CDD50CA00C403B5 /* AddBookScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB2442CDD50CA00C403B5 /* AddBookScreen.swift */; };
+		27DFB2672CDD50CA00C403B5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB2522CDD50CA00C403B5 /* AppDelegate.swift */; };
+		27DFB2682CDD50CA00C403B5 /* MapAnnotationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB24E2CDD50CA00C403B5 /* MapAnnotationDelegate.swift */; };
+		27DFB26A2CDD50CA00C403B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27DFB2592CDD50CA00C403B5 /* Main.storyboard */; };
+		27DFB26B2CDD50CA00C403B5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27DFB2572CDD50CA00C403B5 /* LaunchScreen.storyboard */; };
+		27DFB26C2CDD50CA00C403B5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 27DFB2532CDD50CA00C403B5 /* Assets.xcassets */; };
+		27DFB2702CDD51A100C403B5 /* LoginScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB26D2CDD51A100C403B5 /* LoginScreenView.swift */; };
+		27DFB2712CDD51A100C403B5 /* LoginScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB26E2CDD51A100C403B5 /* LoginScreenViewController.swift */; };
+		27DFB2762CDD51AA00C403B5 /* RegisterScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB2742CDD51AA00C403B5 /* RegisterScreenViewController.swift */; };
+		27DFB2772CDD51AA00C403B5 /* RegisterScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB2732CDD51AA00C403B5 /* RegisterScreenView.swift */; };
+		27DFB2782CDD51AA00C403B5 /* RegisterFirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB2722CDD51AA00C403B5 /* RegisterFirebaseManager.swift */; };
+		27DFB27A2CDD528700C403B5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 27DFB2792CDD528700C403B5 /* GoogleService-Info.plist */; };
+		27DFB27D2CDD52D100C403B5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 27DFB27C2CDD52D100C403B5 /* FirebaseAuth */; };
+		27DFB27F2CDD52D100C403B5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 27DFB27E2CDD52D100C403B5 /* FirebaseFirestore */; };
+		27DFB2812CDD52D100C403B5 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 27DFB2802CDD52D100C403B5 /* FirebaseStorage */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,18 +56,34 @@
 
 /* Begin PBXFileReference section */
 		1432FD792CDC22FD00DE5A55 /* StoryHunters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoryHunters.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		1432FD7C2CDC22FD00DE5A55 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		1432FD7E2CDC22FD00DE5A55 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1432FD802CDC22FD00DE5A55 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		1432FD832CDC22FE00DE5A55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		1432FD852CDC22FF00DE5A55 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		1432FD882CDC22FF00DE5A55 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		1432FD8A2CDC22FF00DE5A55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1432FD8F2CDC22FF00DE5A55 /* StoryHuntersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StoryHuntersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1432FD932CDC22FF00DE5A55 /* StoryHuntersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryHuntersTests.swift; sourceTree = "<group>"; };
 		1432FD992CDC22FF00DE5A55 /* StoryHuntersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StoryHuntersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1432FD9D2CDC22FF00DE5A55 /* StoryHuntersUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryHuntersUITests.swift; sourceTree = "<group>"; };
 		1432FD9F2CDC22FF00DE5A55 /* StoryHuntersUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryHuntersUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		27DFB2442CDD50CA00C403B5 /* AddBookScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookScreen.swift; sourceTree = "<group>"; };
+		27DFB2452CDD50CA00C403B5 /* AddBookScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookScreenViewController.swift; sourceTree = "<group>"; };
+		27DFB2472CDD50CA00C403B5 /* BooksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksTableViewCell.swift; sourceTree = "<group>"; };
+		27DFB2482CDD50CA00C403B5 /* LibraryScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryScreen.swift; sourceTree = "<group>"; };
+		27DFB2492CDD50CA00C403B5 /* LibraryScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryScreenViewController.swift; sourceTree = "<group>"; };
+		27DFB24B2CDD50CA00C403B5 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		27DFB24D2CDD50CA00C403B5 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		27DFB24E2CDD50CA00C403B5 /* MapAnnotationDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAnnotationDelegate.swift; sourceTree = "<group>"; };
+		27DFB24F2CDD50CA00C403B5 /* Place.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Place.swift; sourceTree = "<group>"; };
+		27DFB2502CDD50CA00C403B5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		27DFB2522CDD50CA00C403B5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		27DFB2532CDD50CA00C403B5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		27DFB2542CDD50CA00C403B5 /* Configs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configs.swift; sourceTree = "<group>"; };
+		27DFB2552CDD50CA00C403B5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		27DFB2562CDD50CA00C403B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		27DFB2582CDD50CA00C403B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		27DFB25A2CDD50CA00C403B5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		27DFB26D2CDD51A100C403B5 /* LoginScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreenView.swift; sourceTree = "<group>"; };
+		27DFB26E2CDD51A100C403B5 /* LoginScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreenViewController.swift; sourceTree = "<group>"; };
+		27DFB2722CDD51AA00C403B5 /* RegisterFirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterFirebaseManager.swift; sourceTree = "<group>"; };
+		27DFB2732CDD51AA00C403B5 /* RegisterScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterScreenView.swift; sourceTree = "<group>"; };
+		27DFB2742CDD51AA00C403B5 /* RegisterScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterScreenViewController.swift; sourceTree = "<group>"; };
+		27DFB2792CDD528700C403B5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +91,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27DFB27D2CDD52D100C403B5 /* FirebaseAuth in Frameworks */,
+				27DFB27F2CDD52D100C403B5 /* FirebaseFirestore in Frameworks */,
+				27DFB2812CDD52D100C403B5 /* FirebaseStorage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,7 +117,7 @@
 		1432FD702CDC22FD00DE5A55 = {
 			isa = PBXGroup;
 			children = (
-				1432FD7B2CDC22FD00DE5A55 /* StoryHunters */,
+				27DFB25B2CDD50CA00C403B5 /* StoryHunters */,
 				1432FD922CDC22FF00DE5A55 /* StoryHuntersTests */,
 				1432FD9C2CDC22FF00DE5A55 /* StoryHuntersUITests */,
 				1432FD7A2CDC22FD00DE5A55 /* Products */,
@@ -94,20 +132,6 @@
 				1432FD992CDC22FF00DE5A55 /* StoryHuntersUITests.xctest */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		1432FD7B2CDC22FD00DE5A55 /* StoryHunters */ = {
-			isa = PBXGroup;
-			children = (
-				1432FD7C2CDC22FD00DE5A55 /* AppDelegate.swift */,
-				1432FD7E2CDC22FD00DE5A55 /* SceneDelegate.swift */,
-				1432FD802CDC22FD00DE5A55 /* ViewController.swift */,
-				1432FD822CDC22FD00DE5A55 /* Main.storyboard */,
-				1432FD852CDC22FF00DE5A55 /* Assets.xcassets */,
-				1432FD872CDC22FF00DE5A55 /* LaunchScreen.storyboard */,
-				1432FD8A2CDC22FF00DE5A55 /* Info.plist */,
-			);
-			path = StoryHunters;
 			sourceTree = "<group>";
 		};
 		1432FD922CDC22FF00DE5A55 /* StoryHuntersTests */ = {
@@ -125,6 +149,84 @@
 				1432FD9F2CDC22FF00DE5A55 /* StoryHuntersUITestsLaunchTests.swift */,
 			);
 			path = StoryHuntersUITests;
+			sourceTree = "<group>";
+		};
+		27DFB2462CDD50CA00C403B5 /* Add Book */ = {
+			isa = PBXGroup;
+			children = (
+				27DFB2442CDD50CA00C403B5 /* AddBookScreen.swift */,
+				27DFB2452CDD50CA00C403B5 /* AddBookScreenViewController.swift */,
+			);
+			path = "Add Book";
+			sourceTree = "<group>";
+		};
+		27DFB24A2CDD50CA00C403B5 /* Little Library */ = {
+			isa = PBXGroup;
+			children = (
+				27DFB2472CDD50CA00C403B5 /* BooksTableViewCell.swift */,
+				27DFB2482CDD50CA00C403B5 /* LibraryScreen.swift */,
+				27DFB2492CDD50CA00C403B5 /* LibraryScreenViewController.swift */,
+			);
+			path = "Little Library";
+			sourceTree = "<group>";
+		};
+		27DFB24C2CDD50CA00C403B5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				27DFB24B2CDD50CA00C403B5 /* MapView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		27DFB2512CDD50CA00C403B5 /* Main Screen */ = {
+			isa = PBXGroup;
+			children = (
+				27DFB24C2CDD50CA00C403B5 /* Views */,
+				27DFB24D2CDD50CA00C403B5 /* LocationManager.swift */,
+				27DFB24E2CDD50CA00C403B5 /* MapAnnotationDelegate.swift */,
+				27DFB24F2CDD50CA00C403B5 /* Place.swift */,
+				27DFB2502CDD50CA00C403B5 /* ViewController.swift */,
+			);
+			path = "Main Screen";
+			sourceTree = "<group>";
+		};
+		27DFB25B2CDD50CA00C403B5 /* StoryHunters */ = {
+			isa = PBXGroup;
+			children = (
+				27DFB2752CDD51AA00C403B5 /* RegisterScreen */,
+				27DFB2462CDD50CA00C403B5 /* Add Book */,
+				27DFB24A2CDD50CA00C403B5 /* Little Library */,
+				27DFB2512CDD50CA00C403B5 /* Main Screen */,
+				27DFB2522CDD50CA00C403B5 /* AppDelegate.swift */,
+				27DFB2532CDD50CA00C403B5 /* Assets.xcassets */,
+				27DFB2542CDD50CA00C403B5 /* Configs.swift */,
+				27DFB2552CDD50CA00C403B5 /* Info.plist */,
+				27DFB2792CDD528700C403B5 /* GoogleService-Info.plist */,
+				27DFB2572CDD50CA00C403B5 /* LaunchScreen.storyboard */,
+				27DFB2592CDD50CA00C403B5 /* Main.storyboard */,
+				27DFB25A2CDD50CA00C403B5 /* SceneDelegate.swift */,
+				27DFB26F2CDD51A100C403B5 /* LoginScreen */,
+			);
+			path = StoryHunters;
+			sourceTree = "<group>";
+		};
+		27DFB26F2CDD51A100C403B5 /* LoginScreen */ = {
+			isa = PBXGroup;
+			children = (
+				27DFB26D2CDD51A100C403B5 /* LoginScreenView.swift */,
+				27DFB26E2CDD51A100C403B5 /* LoginScreenViewController.swift */,
+			);
+			path = LoginScreen;
+			sourceTree = "<group>";
+		};
+		27DFB2752CDD51AA00C403B5 /* RegisterScreen */ = {
+			isa = PBXGroup;
+			children = (
+				27DFB2722CDD51AA00C403B5 /* RegisterFirebaseManager.swift */,
+				27DFB2732CDD51AA00C403B5 /* RegisterScreenView.swift */,
+				27DFB2742CDD51AA00C403B5 /* RegisterScreenViewController.swift */,
+			);
+			path = RegisterScreen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,7 +293,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					1432FD782CDC22FD00DE5A55 = {
 						CreatedOnToolsVersion = 15.4;
@@ -215,6 +317,9 @@
 				Base,
 			);
 			mainGroup = 1432FD702CDC22FD00DE5A55;
+			packageReferences = (
+				27DFB27B2CDD52D100C403B5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 1432FD7A2CDC22FD00DE5A55 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -231,9 +336,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1432FD862CDC22FF00DE5A55 /* Assets.xcassets in Resources */,
-				1432FD892CDC22FF00DE5A55 /* Base in Resources */,
-				1432FD842CDC22FE00DE5A55 /* Base in Resources */,
+				27DFB26A2CDD50CA00C403B5 /* Main.storyboard in Resources */,
+				27DFB27A2CDD528700C403B5 /* GoogleService-Info.plist in Resources */,
+				27DFB26B2CDD50CA00C403B5 /* LaunchScreen.storyboard in Resources */,
+				27DFB26C2CDD50CA00C403B5 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -258,9 +364,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1432FD812CDC22FD00DE5A55 /* ViewController.swift in Sources */,
-				1432FD7D2CDC22FD00DE5A55 /* AppDelegate.swift in Sources */,
-				1432FD7F2CDC22FD00DE5A55 /* SceneDelegate.swift in Sources */,
+				27DFB25C2CDD50CA00C403B5 /* BooksTableViewCell.swift in Sources */,
+				27DFB2762CDD51AA00C403B5 /* RegisterScreenViewController.swift in Sources */,
+				27DFB2772CDD51AA00C403B5 /* RegisterScreenView.swift in Sources */,
+				27DFB2782CDD51AA00C403B5 /* RegisterFirebaseManager.swift in Sources */,
+				27DFB25D2CDD50CA00C403B5 /* ViewController.swift in Sources */,
+				27DFB25E2CDD50CA00C403B5 /* LibraryScreen.swift in Sources */,
+				27DFB25F2CDD50CA00C403B5 /* Configs.swift in Sources */,
+				27DFB2602CDD50CA00C403B5 /* Place.swift in Sources */,
+				27DFB2612CDD50CA00C403B5 /* LocationManager.swift in Sources */,
+				27DFB2622CDD50CA00C403B5 /* AddBookScreenViewController.swift in Sources */,
+				27DFB2632CDD50CA00C403B5 /* SceneDelegate.swift in Sources */,
+				27DFB2642CDD50CA00C403B5 /* MapView.swift in Sources */,
+				27DFB2652CDD50CA00C403B5 /* LibraryScreenViewController.swift in Sources */,
+				27DFB2702CDD51A100C403B5 /* LoginScreenView.swift in Sources */,
+				27DFB2712CDD51A100C403B5 /* LoginScreenViewController.swift in Sources */,
+				27DFB2662CDD50CA00C403B5 /* AddBookScreen.swift in Sources */,
+				27DFB2672CDD50CA00C403B5 /* AppDelegate.swift in Sources */,
+				27DFB2682CDD50CA00C403B5 /* MapAnnotationDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,20 +418,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		1432FD822CDC22FD00DE5A55 /* Main.storyboard */ = {
+		27DFB2572CDD50CA00C403B5 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				1432FD832CDC22FE00DE5A55 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		1432FD872CDC22FF00DE5A55 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1432FD882CDC22FF00DE5A55 /* Base */,
+				27DFB2562CDD50CA00C403B5 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		27DFB2592CDD50CA00C403B5 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				27DFB2582CDD50CA00C403B5 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -492,7 +613,6 @@
 		1432FDA72CDC22FF00DE5A55 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -511,7 +631,6 @@
 		1432FDA82CDC22FF00DE5A55 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -530,7 +649,6 @@
 		1432FDAA2CDC22FF00DE5A55 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -547,7 +665,6 @@
 		1432FDAB2CDC22FF00DE5A55 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -601,6 +718,35 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		27DFB27B2CDD52D100C403B5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.4.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		27DFB27C2CDD52D100C403B5 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27DFB27B2CDD52D100C403B5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		27DFB27E2CDD52D100C403B5 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27DFB27B2CDD52D100C403B5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		27DFB2802CDD52D100C403B5 /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 27DFB27B2CDD52D100C403B5 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1432FD712CDC22FD00DE5A55 /* Project object */;
 }
