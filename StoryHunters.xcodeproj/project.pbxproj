@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -85,6 +85,10 @@
 		27DFB2742CDD51AA00C403B5 /* RegisterScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterScreenViewController.swift; sourceTree = "<group>"; };
 		27DFB2792CDD528700C403B5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		24BEF0172CE68F1F008E787F /* Profile */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Profile; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		1432FD762CDC22FD00DE5A55 /* Frameworks */ = {
@@ -193,6 +197,7 @@
 		27DFB25B2CDD50CA00C403B5 /* StoryHunters */ = {
 			isa = PBXGroup;
 			children = (
+				24BEF0172CE68F1F008E787F /* Profile */,
 				27DFB2752CDD51AA00C403B5 /* RegisterScreen */,
 				27DFB2462CDD50CA00C403B5 /* Add Book */,
 				27DFB24A2CDD50CA00C403B5 /* Little Library */,
@@ -243,6 +248,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				24BEF0172CE68F1F008E787F /* Profile */,
 			);
 			name = StoryHunters;
 			productName = StoryHunters;

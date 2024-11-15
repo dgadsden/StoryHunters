@@ -46,10 +46,19 @@ class ViewController: UIViewController {
         mapView.mapView.delegate = self
         
         self.setupRightBarButton()
+        
+        //auto log out 
+//        do {
+//            try Auth.auth().signOut()
+//        } catch {
+//            print("failed to sign out")
+//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
+        
+         
             
             //MARK: handling if the Authentication state is changed (sign in, sign out, register)...
             handleAuth = Auth.auth().addStateDidChangeListener{ auth, user in
@@ -61,8 +70,10 @@ class ViewController: UIViewController {
                     //MARK: the user is signed in...
                 }
             }
-        }
-    
+        
+
+      }
+ 
     @objc func onButtonCurrentLocationTapped(){
         if let uwLocation = locationManager.location{
             mapView.mapView.centerToLocation(location: locationManager.location!)
@@ -70,6 +81,20 @@ class ViewController: UIViewController {
     }
     
     @objc func onProfileBarButtonTapped(){
+        func createTabBarControllers() -> [UIViewController] {
+            
+            let profileVC = ProfileViewController()
+            let profileNav = UINavigationController(rootViewController: profileVC)
+            profileNav.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), tag: 0)
+
+           return [profileNav]
+       }
+        let tabBarVC = UITabBarController()
+        tabBarVC.tabBar.tintColor = .black
+        tabBarVC.viewControllers = createTabBarControllers()
+        tabBarVC.modalPresentationStyle = .fullScreen
+        present(tabBarVC, animated: true)
+        
     }
     
     func setupRightBarButton(){
