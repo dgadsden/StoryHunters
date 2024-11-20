@@ -1,11 +1,11 @@
 //
-//  Notification.swift
+//  LibraryUpdate.swift
 //  StoryHunters
 //
 //  Created by Lia Shechter on 11/20/24.
 //
 
-struct Notification{
+struct LibraryUpdate{
     var dateTime: String
     var message: String
     
