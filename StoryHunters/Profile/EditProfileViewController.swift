@@ -67,6 +67,7 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
         let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.identifier, for: indexPath) as! FormTableViewCell
         cell.configure(with: model)
         cell.textLabel?.text = model.label
+        cell.delegate = self
         return cell
     }
     
@@ -112,24 +113,8 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
         present(imagePickerController, animated: true)
     }
     @objc private func didTapSave() {
-        // Iterate through the model and check for values
-        for section in models {
-            for model in section {
-                if model.value == nil || model.value?.isEmpty == true {
-                    // If any field is empty, show an alert
-                    showAlert(message: "Please fill out all fields.")
-                    return
-                }
-            }
-        }
-        
-        // If validation passes, proceed to save the data (could be a backend call or local storage)
-        // For example, save to a user model or perform some other action
-        // You can replace this with your own save functionality.
-        print("Profile Saved Successfully")
-        
-        // After saving, dismiss the view controller
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)                                    
+    
     }
     private func showAlert(message: String) {
         let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
@@ -140,5 +125,12 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
     @objc private func didTapCancel() {
         // Handle cancel action
         dismiss(animated: true, completion: nil)
+    }
+}
+
+
+extension EditProfileViewController: FormTableViewCellDelegate {
+    func formTableViewCell(_ cell: FormTableViewCell, didUpdateField updatedModel: EditProfileFormModel) {
+        
     }
 }

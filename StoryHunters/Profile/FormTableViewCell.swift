@@ -7,9 +7,15 @@
 
 import UIKit
 
+protocol FormTableViewCellDelegate: AnyObject {
+    func formTableViewCell(_ cell: FormTableViewCell, didUpdateField updateModel: EditProfileFormModel)
+}
+
 class FormTableViewCell: UITableViewCell, UITextFieldDelegate {
     
     static let identifier = "FormTableViewCell"
+    private var model: EditProfileFormModel?
+    public weak var delegate: FormTableViewCellDelegate?
     
     private let formLabel: UILabel = {
         let label = UILabel()
@@ -30,6 +36,8 @@ class FormTableViewCell: UITableViewCell, UITextFieldDelegate {
         contentView.addSubview(formLabel)
         contentView.addSubview(field)
         field.delegate = self
+        selectionStyle = .none
+        
     }
     
     required init?(coder: NSCoder) {
@@ -37,6 +45,7 @@ class FormTableViewCell: UITableViewCell, UITextFieldDelegate {
     }
     public func configure(with model: EditProfileFormModel) {
 //        formLabel.text = model.label
+        self.model = model
         field.placeholder = model.placeholder
         field.text = model.value
     }
@@ -56,6 +65,12 @@ class FormTableViewCell: UITableViewCell, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        model?.value = textField.text
+        guard let model = model else {
+            return true
+        }
+        delegate?.formTableViewCell(self, didUpdateField: model)
+        textField.resignFirstResponder()
         return true
     }
     

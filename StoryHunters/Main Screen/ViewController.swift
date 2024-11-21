@@ -80,22 +80,11 @@ class ViewController: UIViewController {
         }
     }
     
-    @objc func onProfileBarButtonTapped(){
-        func createTabBarControllers() -> [UIViewController] {
-            
-            let profileVC = ProfileViewController()
-            let profileNav = UINavigationController(rootViewController: profileVC)
-            profileNav.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(systemName: "person"), tag: 0)
-
-           return [profileNav]
-       }
-        let tabBarVC = UITabBarController()
-        tabBarVC.tabBar.tintColor = .black
-        tabBarVC.viewControllers = createTabBarControllers()
-        tabBarVC.modalPresentationStyle = .fullScreen
-        present(tabBarVC, animated: true)
-        
+    @objc func onProfileBarButtonTapped() {
+        let profileVC = ProfileViewController()
+        navigationController?.pushViewController(profileVC, animated: true)
     }
+
     
     func setupRightBarButton(){
         //MARK: user is logged in...
