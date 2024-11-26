@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import FirebaseFirestore
 
-struct Book{
+struct Book: Codable{
     @DocumentID var id: String?
     var title: String
     var author: String

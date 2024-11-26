@@ -14,7 +14,6 @@ class ViewController: UIViewController {
     let mapView = MapView()
     
     var handleAuth: AuthStateDidChangeListenerHandle?
-    var currentUser:FirebaseAuth.User?
     
     let locationManager = CLLocationManager()
 

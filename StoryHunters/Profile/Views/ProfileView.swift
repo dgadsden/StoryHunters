@@ -12,11 +12,15 @@ import UIKit
 class ProfileView: UIView {
     
     var collectionView: UICollectionView!
+    var tableViewBooks: UITableView!
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .systemBackground
-        setupCollectionView()
+        
+//        setupCollectionView()
+        setupTableViewBooks()
         initConstraints()
     }
     
@@ -36,12 +40,26 @@ class ProfileView: UIView {
         self.addSubview(collectionView)
     }
     
+    func setupTableViewBooks() {
+        tableViewBooks = UITableView()
+        tableViewBooks.register(BookTableViewCell.self, forCellReuseIdentifier: Configs.tableViewBooksID)
+        tableViewBooks.separatorStyle = .none
+        tableViewBooks.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(tableViewBooks)
+    }
+    
     func initConstraints() {
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
+//            collectionView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+//            collectionView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+//            collectionView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+//            collectionView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
+            
+            tableViewBooks.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            tableViewBooks.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            tableViewBooks.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            tableViewBooks.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            
         ])
     }
     
