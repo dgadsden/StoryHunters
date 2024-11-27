@@ -1,14 +1,15 @@
 //
-//  MapAnnotationDelegate.swift
+//  LibraryMapAnnotation.swift
 //  StoryHunters
 //
-//  Created by Lia Shechter on 11/5/24.
+//  Created by Lia Shechter on 11/26/24.
 //
+
 import Foundation
 import MapKit
-extension ViewController: MKMapViewDelegate{
+extension LibraryScreenViewController: MKMapViewDelegate{
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation)
-        -> MKAnnotationView? {
+    -> MKAnnotationView? {
         guard let annotation = annotation as? Library else { return nil }
         
         var view:MKMarkerAnnotationView
@@ -18,7 +19,7 @@ extension ViewController: MKMapViewDelegate{
             
             annotationView.annotation = annotation
             view = annotationView
-        
+            
         }else{
             view = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: Configs.placeIdentifier)
             view.canShowCallout = true
@@ -27,16 +28,5 @@ extension ViewController: MKMapViewDelegate{
             view.glyphText = "📚"
         }
         return view
-    }
-    
-    func mapView(_ mapView: MKMapView,
-        annotationView view: MKAnnotationView,
-        calloutAccessoryControlTapped control: UIControl) {
-            
-        guard let annotation = view.annotation as? Library else { return }
-        
-        let library = LibraryScreenViewController()
-        library.library = annotation
-        navigationController?.pushViewController(library, animated: true)
     }
 }

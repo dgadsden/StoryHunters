@@ -10,6 +10,11 @@
 		1432FD942CDC22FF00DE5A55 /* StoryHuntersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1432FD932CDC22FF00DE5A55 /* StoryHuntersTests.swift */; };
 		1432FD9E2CDC22FF00DE5A55 /* StoryHuntersUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1432FD9D2CDC22FF00DE5A55 /* StoryHuntersUITests.swift */; };
 		1432FDA02CDC22FF00DE5A55 /* StoryHuntersUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1432FD9F2CDC22FF00DE5A55 /* StoryHuntersUITestsLaunchTests.swift */; };
+		144B1E512CF6C9A70027F022 /* LibraryUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144B1E4E2CF6C9A70027F022 /* LibraryUpdate.swift */; };
+		144B1E522CF6C9A70027F022 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144B1E4D2CF6C9A70027F022 /* Library.swift */; };
+		144B1E532CF6C9A70027F022 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144B1E4F2CF6C9A70027F022 /* User.swift */; };
+		144B1E542CF6C9A70027F022 /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144B1E4C2CF6C9A70027F022 /* Book.swift */; };
+		144B1E562CF6CB730027F022 /* LibraryMapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144B1E552CF6CB6C0027F022 /* LibraryMapAnnotation.swift */; };
 		27DFB25C2CDD50CA00C403B5 /* BooksTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB2472CDD50CA00C403B5 /* BooksTableViewCell.swift */; };
 		27DFB25D2CDD50CA00C403B5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB2502CDD50CA00C403B5 /* ViewController.swift */; };
 		27DFB25E2CDD50CA00C403B5 /* LibraryScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DFB2482CDD50CA00C403B5 /* LibraryScreen.swift */; };
@@ -61,6 +66,11 @@
 		1432FD992CDC22FF00DE5A55 /* StoryHuntersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StoryHuntersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1432FD9D2CDC22FF00DE5A55 /* StoryHuntersUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryHuntersUITests.swift; sourceTree = "<group>"; };
 		1432FD9F2CDC22FF00DE5A55 /* StoryHuntersUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryHuntersUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		144B1E4C2CF6C9A70027F022 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		144B1E4D2CF6C9A70027F022 /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
+		144B1E4E2CF6C9A70027F022 /* LibraryUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryUpdate.swift; sourceTree = "<group>"; };
+		144B1E4F2CF6C9A70027F022 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		144B1E552CF6CB6C0027F022 /* LibraryMapAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryMapAnnotation.swift; sourceTree = "<group>"; };
 		27DFB2442CDD50CA00C403B5 /* AddBookScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookScreen.swift; sourceTree = "<group>"; };
 		27DFB2452CDD50CA00C403B5 /* AddBookScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBookScreenViewController.swift; sourceTree = "<group>"; };
 		27DFB2472CDD50CA00C403B5 /* BooksTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooksTableViewCell.swift; sourceTree = "<group>"; };
@@ -155,6 +165,17 @@
 			path = StoryHuntersUITests;
 			sourceTree = "<group>";
 		};
+		144B1E502CF6C9A70027F022 /* Data Models 2 */ = {
+			isa = PBXGroup;
+			children = (
+				144B1E4C2CF6C9A70027F022 /* Book.swift */,
+				144B1E4D2CF6C9A70027F022 /* Library.swift */,
+				144B1E4E2CF6C9A70027F022 /* LibraryUpdate.swift */,
+				144B1E4F2CF6C9A70027F022 /* User.swift */,
+			);
+			path = "Data Models 2";
+			sourceTree = "<group>";
+		};
 		27DFB2462CDD50CA00C403B5 /* Add Book */ = {
 			isa = PBXGroup;
 			children = (
@@ -167,6 +188,7 @@
 		27DFB24A2CDD50CA00C403B5 /* Little Library */ = {
 			isa = PBXGroup;
 			children = (
+				144B1E552CF6CB6C0027F022 /* LibraryMapAnnotation.swift */,
 				27DFB2472CDD50CA00C403B5 /* BooksTableViewCell.swift */,
 				27DFB2482CDD50CA00C403B5 /* LibraryScreen.swift */,
 				27DFB2492CDD50CA00C403B5 /* LibraryScreenViewController.swift */,
@@ -211,6 +233,7 @@
 				27DFB2592CDD50CA00C403B5 /* Main.storyboard */,
 				27DFB25A2CDD50CA00C403B5 /* SceneDelegate.swift */,
 				27DFB26F2CDD51A100C403B5 /* LoginScreen */,
+				144B1E502CF6C9A70027F022 /* Data Models 2 */,
 			);
 			path = StoryHunters;
 			sourceTree = "<group>";
@@ -375,10 +398,15 @@
 				27DFB25C2CDD50CA00C403B5 /* BooksTableViewCell.swift in Sources */,
 				27DFB2762CDD51AA00C403B5 /* RegisterScreenViewController.swift in Sources */,
 				27DFB2772CDD51AA00C403B5 /* RegisterScreenView.swift in Sources */,
+				144B1E562CF6CB730027F022 /* LibraryMapAnnotation.swift in Sources */,
 				27DFB2782CDD51AA00C403B5 /* RegisterFirebaseManager.swift in Sources */,
 				27DFB25D2CDD50CA00C403B5 /* ViewController.swift in Sources */,
 				27DFB25E2CDD50CA00C403B5 /* LibraryScreen.swift in Sources */,
 				27DFB25F2CDD50CA00C403B5 /* Configs.swift in Sources */,
+				144B1E512CF6C9A70027F022 /* LibraryUpdate.swift in Sources */,
+				144B1E522CF6C9A70027F022 /* Library.swift in Sources */,
+				144B1E532CF6C9A70027F022 /* User.swift in Sources */,
+				144B1E542CF6C9A70027F022 /* Book.swift in Sources */,
 				27DFB2602CDD50CA00C403B5 /* Place.swift in Sources */,
 				27DFB2612CDD50CA00C403B5 /* LocationManager.swift in Sources */,
 				27DFB2622CDD50CA00C403B5 /* AddBookScreenViewController.swift in Sources */,
