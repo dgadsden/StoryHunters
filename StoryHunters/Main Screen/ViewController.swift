@@ -4,25 +4,24 @@
 //
 //  Created by Lia Shechter on 11/5/24.
 //
-
 import UIKit
 import MapKit
 import FirebaseAuth
-
+import Firebase
+import FirebaseFirestore
 
 class ViewController: UIViewController {
     let mapView = MapView()
+    let database = Firestore.firestore()
     
     var handleAuth: AuthStateDidChangeListenerHandle?
     var currentUser:FirebaseAuth.User?
     
     let locationManager = CLLocationManager()
-
     
     override func loadView() {
         view = mapView
     }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,32 +32,15 @@ class ViewController: UIViewController {
         //MARK: center the map view to current location when the app loads...
         onButtonCurrentLocationTapped()
         
-        
-        //MARK: Annotating Northeastern University...
-        let northeastern = Place(
-            title: "Northeastern Little Library",
-            coordinate: CLLocationCoordinate2D(latitude: 42.339918, longitude: -71.089797),
-            info: "LVX VERITAS VIRTVS"
-        )
-        
-        mapView.mapView.addAnnotation(northeastern)
-        
         mapView.mapView.delegate = self
+        mapView.mapView.showsUserLocation = false
+        updateMapPins()
         
         self.setupRightBarButton()
-        
-        //auto log out 
-//        do {
-//            try Auth.auth().signOut()
-//        } catch {
-//            print("failed to sign out")
-//        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
             super.viewWillAppear(animated)
-        
-         
             
             //MARK: handling if the Authentication state is changed (sign in, sign out, register)...
             handleAuth = Auth.auth().addStateDidChangeListener{ auth, user in
@@ -70,21 +52,41 @@ class ViewController: UIViewController {
                     //MARK: the user is signed in...
                 }
             }
-        
-
-      }
- 
+        }
+    
     @objc func onButtonCurrentLocationTapped(){
         if let uwLocation = locationManager.location{
-            mapView.mapView.centerToLocation(location: locationManager.location!)
+            mapView.mapView.centerToLocation(location: uwLocation)
         }
     }
     
     @objc func onProfileBarButtonTapped() {
-        let profileVC = ProfileViewController()
-        navigationController?.pushViewController(profileVC, animated: true)
+            let profileVC = ProfileViewController()
+            navigationController?.pushViewController(profileVC, animated: true)
+        }
+    
+    func updateMapPins() {
+        database.collection("Libraries").getDocuments(){ querySnapshot, error in
+            if let error{
+                print("Error fetching documents: \(error)")
+            }else{
+                print("Documents fetched successfully.")
+                for document in querySnapshot!.documents{
+                    guard let title = document.get("title") as? String,
+                                          let info = document.get("info") as? String,
+                                          let geopoint = document.get("coordinate") as? GeoPoint else {
+                                        print("Error parsing document: \(document.data())")
+                                        continue
+                                    }
+                    let id = document.documentID
+                    let coordinate = CLLocationCoordinate2D(latitude: geopoint.latitude, longitude: geopoint.longitude)
+                    let library = Library(id: id, title: title, coordinate: coordinate, info: info)
+                    print("Adding library: \(title) at \(coordinate.latitude), \(coordinate.longitude)")
+                    self.mapView.mapView.addAnnotation(library)
+                }
+            }
+        }
     }
-
     
     func setupRightBarButton(){
         //MARK: user is logged in...
@@ -104,10 +106,7 @@ class ViewController: UIViewController {
         navigationItem.rightBarButtonItems = [barIcon, barText]
         
     }
-
 }
-
-
 extension MKMapView{
     func centerToLocation(location: CLLocation, radius: CLLocationDistance = 1000){
         let coordinateRegion = MKCoordinateRegion(
@@ -118,3 +117,4 @@ extension MKMapView{
         setRegion(coordinateRegion, animated: true)
     }
 }
+

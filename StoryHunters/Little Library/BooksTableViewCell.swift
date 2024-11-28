@@ -9,14 +9,16 @@ import UIKit
 
 class BooksTableViewCell: UITableViewCell {
     var wrapperCellView: UIView!
-    var labelName: UILabel!
-    
+    var labelTitle: UILabel!
+    var labelAuthor: UILabel!
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupWrapperCellView()
-        setupLabelName()
-        
+        setupLabelTitle()
+        setupLabelAuthor()
+
         initConstraints()
     }
 
@@ -34,11 +36,18 @@ class BooksTableViewCell: UITableViewCell {
         self.addSubview(wrapperCellView)
     }
     
-    func setupLabelName(){
-        labelName = UILabel()
-        labelName.font = UIFont.boldSystemFont(ofSize: 16)
-        labelName.translatesAutoresizingMaskIntoConstraints = false
-        wrapperCellView.addSubview(labelName)
+    func setupLabelTitle(){
+        labelTitle = UILabel()
+        labelTitle.font = UIFont.boldSystemFont(ofSize: 16)
+        labelTitle.translatesAutoresizingMaskIntoConstraints = false
+        wrapperCellView.addSubview(labelTitle)
+    }
+    
+    func setupLabelAuthor(){
+        labelAuthor = UILabel()
+        labelAuthor.font = UIFont.boldSystemFont(ofSize: 16)
+        labelAuthor.translatesAutoresizingMaskIntoConstraints = false
+        wrapperCellView.addSubview(labelAuthor)
     }
     
     func initConstraints(){
@@ -48,12 +57,17 @@ class BooksTableViewCell: UITableViewCell {
             wrapperCellView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
             wrapperCellView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -4),
             
-            labelName.topAnchor.constraint(equalTo: wrapperCellView.topAnchor, constant: 8),
-            labelName.leadingAnchor.constraint(equalTo: wrapperCellView.leadingAnchor, constant: 10),
-            labelName.heightAnchor.constraint(equalToConstant: 20),
-            labelName.widthAnchor.constraint(equalTo: wrapperCellView.widthAnchor),
+            labelTitle.topAnchor.constraint(equalTo: wrapperCellView.topAnchor, constant: 8),
+            labelTitle.leadingAnchor.constraint(equalTo: wrapperCellView.leadingAnchor, constant: 10),
+            labelTitle.heightAnchor.constraint(equalToConstant: 20),
+            labelTitle.widthAnchor.constraint(equalTo: wrapperCellView.widthAnchor),
             
-            wrapperCellView.heightAnchor.constraint(equalToConstant: 36)
+            labelAuthor.topAnchor.constraint(equalTo: labelTitle.bottomAnchor, constant: 4),
+            labelAuthor.leadingAnchor.constraint(equalTo: wrapperCellView.leadingAnchor, constant: 10),
+            labelAuthor.heightAnchor.constraint(equalToConstant: 20),
+            labelAuthor.widthAnchor.constraint(equalTo: wrapperCellView.widthAnchor),
+
+            wrapperCellView.heightAnchor.constraint(equalToConstant: 60)
             
         ])
         
