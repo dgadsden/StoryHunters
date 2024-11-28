@@ -66,6 +66,7 @@ class ViewController: UIViewController {
         }
     
     func updateMapPins() {
+        //TODO: Maybe change root doc to "libraries"
         database.collection("Libraries").getDocuments(){ querySnapshot, error in
             if let error{
                 print("Error fetching documents: \(error)")
@@ -88,23 +89,14 @@ class ViewController: UIViewController {
         }
     }
     
-    func setupRightBarButton(){
-        //MARK: user is logged in...
+    func setupRightBarButton() {
         let barIcon = UIBarButtonItem(
             image: UIImage(systemName: "person.crop.circle"),
             style: .plain,
             target: self,
             action: #selector(onProfileBarButtonTapped)
         )
-        let barText = UIBarButtonItem(
-            title: "Profile",
-            style: .plain,
-            target: self,
-            action: #selector(onProfileBarButtonTapped)
-        )
-        
-        navigationItem.rightBarButtonItems = [barIcon, barText]
-        
+        navigationItem.leftBarButtonItem = barIcon
     }
 }
 extension MKMapView{
