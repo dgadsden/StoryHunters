@@ -96,7 +96,7 @@ class ViewController: UIViewController {
             target: self,
             action: #selector(onProfileBarButtonTapped)
         )
-        navigationItem.leftBarButtonItem = barIcon
+        navigationItem.rightBarButtonItem = barIcon
     }
 }
 extension MKMapView{

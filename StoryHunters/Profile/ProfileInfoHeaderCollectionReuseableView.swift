@@ -51,7 +51,7 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
         return button
     }()
 
-    
+    /*
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Joe Smith"
@@ -67,8 +67,7 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
         label.numberOfLines = 0
         return label
     }()
-    
-    
+    */
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -83,8 +82,8 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
         addSubview(followingButton)
         addSubview(editProfileButton)
         addSubview(libraryButton)
-        addSubview(bioLabel)
-        addSubview(nameLabel)
+        //addSubview(bioLabel)
+        //addSubview(nameLabel)
     }
     
     required init?(coder: NSCoder) {
@@ -114,7 +113,6 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
         let bioLabelSize = bioLabel.sizeThatFits(frame.size)
         
         bioLabel.frame = CGRect(x: 5, y: 5 + nameLabel.bottom, width: frame.size.width-10, height: bioLabelSize.height).integral
-        
         
     }
 }
