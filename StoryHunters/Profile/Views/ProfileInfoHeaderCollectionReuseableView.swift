@@ -23,7 +23,7 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
         button.backgroundColor = .secondarySystemBackground
         return button
     }()
-    
+    /*
     private let followingButton: UIButton = {
         let button = UIButton()
         button.setTitle("Following", for: .normal)
@@ -40,7 +40,7 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
         button.backgroundColor = .secondarySystemBackground
         return button
     }()
-    
+    */
     
     
     private let editProfileButton: UIButton = {
@@ -78,8 +78,8 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
     
     private func addSubviews() {
         addSubview(profilePhotoImageView)
-        addSubview(followersButton)
-        addSubview(followingButton)
+        //addSubview(followersButton)
+        //addSubview(followingButton)
         addSubview(editProfileButton)
         addSubview(libraryButton)
         //addSubview(bioLabel)
@@ -102,9 +102,9 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
         let countButtonWidth = (frame.size.width-10-profilePhotoSize)/3
         libraryButton.frame = CGRect(x: profilePhotoImageView.right, y: 5, width: countButtonWidth, height: buttonHeight).integral
         
-        followersButton.frame = CGRect(x: libraryButton.right, y: 5, width: countButtonWidth, height: buttonHeight).integral
+        //followersButton.frame = CGRect(x: libraryButton.right, y: 5, width: countButtonWidth, height: buttonHeight).integral
         
-        followingButton.frame = CGRect(x: followersButton.right, y: 5, width: countButtonWidth, height: buttonHeight).integral
+        //followingButton.frame = CGRect(x: followersButton.right, y: 5, width: countButtonWidth, height: buttonHeight).integral
         
         editProfileButton.frame = CGRect(x: profilePhotoImageView.right, y: 5 + buttonHeight, width: countButtonWidth*3, height: buttonHeight).integral
         
