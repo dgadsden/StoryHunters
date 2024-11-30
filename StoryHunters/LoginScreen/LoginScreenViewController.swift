@@ -20,9 +20,7 @@ class LoginScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(dismissLogin), name: Notification.Name("UserRegistered"), object: nil)
-        
+                
 
         loginScreen.loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         loginScreen.registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)

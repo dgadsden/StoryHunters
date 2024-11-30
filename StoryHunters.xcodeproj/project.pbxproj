@@ -98,6 +98,7 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		24BEF0172CE68F1F008E787F /* Profile */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Profile; sourceTree = "<group>"; };
+		27F6F2942CFBA3230096FF78 /* Progress Indicator */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Progress Indicator"; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +220,7 @@
 		27DFB25B2CDD50CA00C403B5 /* StoryHunters */ = {
 			isa = PBXGroup;
 			children = (
+				27F6F2942CFBA3230096FF78 /* Progress Indicator */,
 				24BEF0172CE68F1F008E787F /* Profile */,
 				27DFB2752CDD51AA00C403B5 /* RegisterScreen */,
 				27DFB2462CDD50CA00C403B5 /* Add Book */,
@@ -274,6 +276,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				24BEF0172CE68F1F008E787F /* Profile */,
+				27F6F2942CFBA3230096FF78 /* Progress Indicator */,
 			);
 			name = StoryHunters;
 			productName = StoryHunters;

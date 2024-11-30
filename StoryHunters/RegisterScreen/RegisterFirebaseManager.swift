@@ -19,8 +19,7 @@ extension RegisterScreenViewController{
             Auth.auth().createUser(withEmail: email, password: password, completion: {result, error in
                 if error == nil{
                     //MARK: the user creation is successful...
-                    self.setNameOfTheUserInFirebaseAuth(name: name)
-                    
+                    self.setNameOfTheUserInFirebaseAuth(name: name, email: email)
                 }else{
                     //MARK: there is a error creating the user...
                     print(error)
@@ -29,18 +28,44 @@ extension RegisterScreenViewController{
         }
     }
     
+    
     //MARK: We set the name of the user after we create the account...
-    func setNameOfTheUserInFirebaseAuth(name: String){
+    func setNameOfTheUserInFirebaseAuth(name: String, email: String){
         let changeRequest = Auth.auth().currentUser?.createProfileChangeRequest()
         changeRequest?.displayName = name
         changeRequest?.commitChanges(completion: {(error) in
             if error == nil{
                 //MARK: the profile update is successful...
-                self.presentingViewController!.dismiss(animated: true)
+                let user = User(name: name, email: email.lowercased())
+                self.saveUserToFirestore(user: user)
+                self.dismiss(animated: true) {
+                    self.dismiss(animated: true, completion: nil) // Dismiss the login screen as well
+                }
             }else{
                 //MARK: there was an error updating the profile...
                 print("Error occured: \(String(describing: error))")
             }
         })
+    }
+    
+    func saveUserToFirestore(user: User) {
+        let userRef = database.collection("users").document(user.email.lowercased())
+        
+        do {
+            try userRef.setData(from: user) { error in
+                self.hideActivityIndicator()
+                if let error = error {
+                    print("Error saving user to Firestore: \(error.localizedDescription)")
+                    self.showAlert("Error saving user data: \(error.localizedDescription)")
+                } else {
+                    print("User successfully saved to Firestore")
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        } catch {
+            self.hideActivityIndicator()
+            print("Error encoding user: \(error.localizedDescription)")
+            self.showAlert("Error encoding user data: \(error.localizedDescription)")
+        }
     }
 }

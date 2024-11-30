@@ -6,10 +6,18 @@
 //
 
 import UIKit
+import FirebaseFirestore
+import FirebaseStorage
+import UIKit
+import PhotosUI
 
 class RegisterScreenViewController: UIViewController {
-
+    
     var registerScreen = RegisterScreenView()
+    let childProgressView = ProgressSpinnerViewController()
+    let storage = Storage.storage()
+    let database = Firestore.firestore()
+    
     override func loadView() {
         view = registerScreen
     }
@@ -29,7 +37,7 @@ class RegisterScreenViewController: UIViewController {
             return
         }
         
-       // TODO: call function to register user
+        // TODO: call function to register user
         registerNewAccount()
     }
     
@@ -50,6 +58,12 @@ class RegisterScreenViewController: UIViewController {
         registerScreen.emailTextField.text = ""
         registerScreen.passwordTextField.text = ""
     }
+    
+    func hideActivityIndicator(){
+            childProgressView.willMove(toParent: nil)
+            childProgressView.view.removeFromSuperview()
+            childProgressView.removeFromParent()
+        }
     
 }
 
