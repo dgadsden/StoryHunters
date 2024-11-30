@@ -108,11 +108,11 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
         
         editProfileButton.frame = CGRect(x: profilePhotoImageView.right, y: 5 + buttonHeight, width: countButtonWidth*3, height: buttonHeight).integral
         
-        nameLabel.frame = CGRect(x: 5, y: 5 + profilePhotoImageView.bottom, width: frame.size.width-10, height: 50).integral
+        //nameLabel.frame = CGRect(x: 5, y: 5 + profilePhotoImageView.bottom, width: frame.size.width-10, height: 50).integral
         
-        let bioLabelSize = bioLabel.sizeThatFits(frame.size)
+        //let bioLabelSize = bioLabel.sizeThatFits(frame.size)
         
-        bioLabel.frame = CGRect(x: 5, y: 5 + nameLabel.bottom, width: frame.size.width-10, height: bioLabelSize.height).integral
+        //bioLabel.frame = CGRect(x: 5, y: 5 + nameLabel.bottom, width: frame.size.width-10, height: bioLabelSize.height).integral
         
     }
 }
