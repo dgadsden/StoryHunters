@@ -15,9 +15,10 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         
+        title = "Profile"
         // Collection View Delegate and DataSource setup
-        profileView.collectionView.delegate = self
-        profileView.collectionView.dataSource = self
+        //profileView.collectionView.delegate = self
+        //profileView.collectionView.dataSource = self
         
     }
     
@@ -45,7 +46,7 @@ final class ProfileViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
 }
-
+/*
 extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
      
@@ -70,7 +71,6 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
         
             let profileHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileInfoHeaderCollectionReuseableView.identifier, for: indexPath) as! ProfileInfoHeaderCollectionReuseableView
             return profileHeader
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -81,3 +81,4 @@ extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataS
     }
     
 }
+*/
