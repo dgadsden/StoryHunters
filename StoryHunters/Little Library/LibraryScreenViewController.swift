@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 import FirebaseFirestore
 import MapKit
 
@@ -30,6 +31,7 @@ class LibraryScreenViewController: UIViewController {
         mainScreen.tableViewBooks.separatorStyle = .none
         
         mainScreen.addBookButton.addTarget(self, action: #selector(onButtonAddTapped), for: .touchUpInside)
+        mainScreen.subscribeButton.addTarget(self, action: #selector(onButtonSubscribeTapped), for: .touchUpInside)
         if let library {
                 mainScreen.mapView.centerToLocation(
                     location: CLLocation(
@@ -89,6 +91,42 @@ class LibraryScreenViewController: UIViewController {
         navigationController?.pushViewController(addBook, animated: true)
     }
     
+    @objc func onButtonSubscribeTapped(){
+        if let library = library {
+                do{
+                    if let user = Auth.auth().currentUser {
+                        if let userEmail = user.email {
+                            if let userName = user.displayName {
+                                let userdb = User(name: userName, email:userEmail)
+                                if let libraryID = library.id {
+                                    let subscriber = database
+                                        .collection("Libraries")
+                                        .document(libraryID)
+                                        .collection("subscribers")
+                                        .document(userEmail.lowercased())
+                                    try subscriber.setData(from: userdb) { error in
+                                        if error == nil{
+                                            self.showAlert(message: "Library added")
+                                        } else {
+                                            self.showAlert(message: "Failed to add library")
+                                        }
+                                    }
+                                }
+   
+                            }
+                        }
+                        
+
+                    }
+                }catch{
+                    print("Error adding document!")
+                }
+            }
+        }
+    
+
+
+    
     func deleteSelectedFor(book: Int) {
         print("made it here 1")
         let selectedBook = books[book]
@@ -122,6 +160,12 @@ class LibraryScreenViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    private func showAlert(message: String) {
+        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alertController, animated: true)
     }
 }
 extension LibraryScreenViewController: UITableViewDelegate, UITableViewDataSource{

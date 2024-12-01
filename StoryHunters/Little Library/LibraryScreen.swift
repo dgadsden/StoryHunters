@@ -11,6 +11,7 @@ class LibraryScreen: UIView {
     var labelBooks: UILabel!
     var tableViewBooks: UITableView!
     var addBookButton: UIButton!
+    var subscribeButton: UIButton!
     var bookIcon: UIImageView!
     
     override init(frame: CGRect) {
@@ -20,6 +21,7 @@ class LibraryScreen: UIView {
         setupLabelBooks()
         setupTableViewBooks()
         setupAddBookButton()
+        setupSubscribeButton()
         setupBookIcon()
         initConstraints()
     }
@@ -50,6 +52,13 @@ class LibraryScreen: UIView {
         addBookButton.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(addBookButton)
     }
+    func setupSubscribeButton(){
+            subscribeButton = UIButton(type: .system)
+            subscribeButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
+            subscribeButton.setTitle("Subscribe to this library", for: .normal)
+            subscribeButton.translatesAutoresizingMaskIntoConstraints = false
+            self.addSubview(subscribeButton)
+    }
     func setupBookIcon(){
         bookIcon = UIImageView(image: UIImage(systemName: "book.pages"))
         bookIcon.tintColor = .gray
@@ -70,11 +79,14 @@ class LibraryScreen: UIView {
             labelBooks.centerYAnchor.constraint(equalTo: bookIcon.centerYAnchor),
             labelBooks.leadingAnchor.constraint(equalTo: bookIcon.trailingAnchor, constant: 8),
             
-            addBookButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-            addBookButton.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+            addBookButton.centerYAnchor.constraint(equalTo: bookIcon.centerYAnchor),
+            addBookButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             
+            subscribeButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -4),
+            subscribeButton.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+
             tableViewBooks.topAnchor.constraint(equalTo: labelBooks.bottomAnchor, constant: 8),
-            tableViewBooks.bottomAnchor.constraint(equalTo: addBookButton.topAnchor),
+            tableViewBooks.bottomAnchor.constraint(equalTo: subscribeButton.topAnchor),
             tableViewBooks.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             tableViewBooks.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor)
         ])
