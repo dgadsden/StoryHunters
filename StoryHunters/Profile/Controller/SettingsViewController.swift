@@ -66,7 +66,7 @@ final class SettingsViewController: UIViewController {
     }
     
     private func navigateToLoginScreen() {
-        let loginVC = LoginScreenViewController()
+        let loginVC = LoginController()
         let navVC = UINavigationController(rootViewController: loginVC)
         navVC.modalPresentationStyle = .fullScreen
         self.view.window?.rootViewController = navVC

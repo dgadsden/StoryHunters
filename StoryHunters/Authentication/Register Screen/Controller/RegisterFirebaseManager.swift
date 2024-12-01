@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseAuth
 
-extension RegisterScreenViewController{
+extension RegisterController{
     func uploadProfilePhotoToStorage(){
         var profilePhotoURL:URL?
         

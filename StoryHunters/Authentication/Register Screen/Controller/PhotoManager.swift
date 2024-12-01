@@ -9,7 +9,8 @@ import UIKit
 import PhotosUI
 
 //MARK: adopting required protocols for PHPicker...
-extension RegisterScreenViewController:PHPickerViewControllerDelegate{
+extension RegisterController:PHPickerViewControllerDelegate{
+    
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         dismiss(animated: true)
         
@@ -39,7 +40,8 @@ extension RegisterScreenViewController:PHPickerViewControllerDelegate{
 }
 
 //MARK: adopting required protocols for UIImagePicker...
-extension RegisterScreenViewController: UINavigationControllerDelegate, UIImagePickerControllerDelegate{
+extension RegisterController: UINavigationControllerDelegate, UIImagePickerControllerDelegate{
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
         

@@ -40,13 +40,13 @@ class LoginView: UIView {
 
     func setupTitleLabel() {
         titleLabel = UILabel()
-        titleLabel.text = "SignUp"
+        titleLabel.text = "Login"
         titleLabel.font = UIFont.systemFont(ofSize: 42, weight: .bold)
         titleLabel.textAlignment = .left
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(titleLabel)
     }
-
+    
     func setupEmailTextField() {
         emailTextField = UITextField()
         emailTextField.placeholder = "Email"

@@ -10,7 +10,7 @@ import FirebaseAuth
 
 class LoginController: UIViewController {
     let loginView = LoginView()
-    let childProgressView = ProgressSpinnerViewController() // Optional: For showing a loading spinner
+    let childProgressView = ProgressSpinnerViewController()
     
     override func loadView() {
         view = loginView
@@ -20,7 +20,7 @@ class LoginController: UIViewController {
         super.viewDidLoad()
         setupActions()
         navigationController?.navigationBar.prefersLargeTitles = true
-        title = "Login"
+        // title = "Login"
     }
     
     private func setupActions() {
@@ -33,7 +33,7 @@ class LoginController: UIViewController {
         let password = loginView.passwordTextField.text ?? ""
         
         // Validate input
-        guard !email.isEmpty, !password.isEmpty else {
+        if email.isEmpty || password.isEmpty {
             showErrorAlert(message: "Please fill in all fields.")
             return
         }
@@ -43,8 +43,13 @@ class LoginController: UIViewController {
             return
         }
         
+        // Print email and password length for debugging (do not print password in production)
+        print("Attempting login with email: \(email)")
+        print("Password length: \(password.count)")
+        
         // Show a spinner while authenticating
         showActivityIndicator()
+        print("Logging in!")
         
         // Firebase Authentication
         Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
@@ -62,15 +67,19 @@ class LoginController: UIViewController {
     
     @objc func onRegisterTapped() {
         // Navigate to the Register Screen
-        let registerVC = RegisterScreenViewController()
+        let registerVC = RegisterController()
         navigationController?.pushViewController(registerVC, animated: true)
     }
     
     private func navigateToMainScreen() {
-        let mainScreenVC = ViewController() // Replace with your main screen class
+        let mainScreenVC = ViewController()
         let navController = UINavigationController(rootViewController: mainScreenVC)
-        navController.modalPresentationStyle = .fullScreen
-        present(navController, animated: true, completion: nil)
+        
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = scene.windows.first {
+            window.rootViewController = navController
+            window.makeKeyAndVisible()
+        }
     }
     
     private func isValidEmail(_ email: String) -> Bool {
@@ -97,4 +106,3 @@ class LoginController: UIViewController {
         childProgressView.removeFromParent()
     }
 }
-

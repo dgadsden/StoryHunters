@@ -1,17 +1,16 @@
 //
-//  RegisterScreenViewController.swift
+//  RegisterController.swift
 //  StoryHunters
 //
-//  Created by Dejah Gadsden on 11/4/24.
+//  Created by Dimiar Ilev on 01.12.24.
 //
-
 import UIKit
 import FirebaseFirestore
 import FirebaseStorage
 import UIKit
 import PhotosUI
 
-class RegisterScreenViewController: UIViewController {
+class RegisterController: UIViewController {
 
     let registerView = RegisterView()
     let childProgressView = ProgressSpinnerViewController()
@@ -62,20 +61,50 @@ class RegisterScreenViewController: UIViewController {
                 self.showErrorAlert(alert: "Error checking email: \(err.localizedDescription)")
             }
             if querySnapshot!.documents.count > 0 {
-                self.showErrorAlert(alert: "Email already in use.")
+                self.showErrorAlert(alert: "Email already exists.")
             } else {
                 // Email is unique, proceed with registration
-                //self.showActivityIndicator()
+                self.showActivityIndicator()
                 self.uploadProfilePhotoToStorage()
+                self.navigateToMainScreen()
             }
         }
+    }
+    
+    private func navigateToMainScreen() {
+        let mainScreenVC = ViewController()
+        let navController = UINavigationController(rootViewController: mainScreenVC)
+        
+        if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = scene.windows.first {
+            window.rootViewController = navController
+            window.makeKeyAndVisible()
+        }
+    }
+    
+    private func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
+    }
+    
+    private func showActivityIndicator(){
+        addChild(childProgressView)
+        view.addSubview(childProgressView.view)
+        childProgressView.didMove(toParent: self)
+    }
+    
+    private func hideActivityIndicator(){
+        childProgressView.willMove(toParent: nil)
+        childProgressView.view.removeFromSuperview()
+        childProgressView.removeFromParent()
     }
     
     @objc func loginButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
     
-    func getMenuImagePicker() -> UIMenu{
+    private func getMenuImagePicker() -> UIMenu{
         let menuItems = [
             UIAction(title: "Camera",handler: {(_) in
                 self.pickUsingCamera()
@@ -89,7 +118,7 @@ class RegisterScreenViewController: UIViewController {
     }
     
     //MARK: take Photo using Camera...
-    func pickUsingCamera(){
+    private func pickUsingCamera(){
         let cameraController = UIImagePickerController()
         cameraController.sourceType = .camera
         cameraController.allowsEditing = true
@@ -98,7 +127,7 @@ class RegisterScreenViewController: UIViewController {
     }
     
     //MARK: pick Photo using Gallery...
-    func pickPhotoFromGallery(){
+    private func pickPhotoFromGallery(){
         //MARK: Photo from Gallery...
         var configuration = PHPickerConfiguration()
         configuration.filter = PHPickerFilter.any(of: [.images])
@@ -110,7 +139,7 @@ class RegisterScreenViewController: UIViewController {
         present(photoPicker, animated: true, completion: nil)
     }
     
-    func showErrorAlert(alert: String){
+    private func showErrorAlert(alert: String){
         let alert = UIAlertController(title: "Error!", message: alert, preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "OK", style: .default))
@@ -118,23 +147,4 @@ class RegisterScreenViewController: UIViewController {
         self.present(alert, animated: true)
     }
     
-    func isValidEmail(_ email: String) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-        return emailPred.evaluate(with: email)
-    }
-    
-    func showActivityIndicator(){
-        addChild(childProgressView)
-        view.addSubview(childProgressView.view)
-        childProgressView.didMove(toParent: self)
-    }
-    
-    func hideActivityIndicator(){
-        childProgressView.willMove(toParent: nil)
-        childProgressView.view.removeFromSuperview()
-        childProgressView.removeFromParent()
-    }
-    
 }
-
