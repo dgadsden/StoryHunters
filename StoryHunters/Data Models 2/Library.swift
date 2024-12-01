@@ -35,7 +35,4 @@ class Library:NSObject, MKAnnotation{
         
         return mapItem
     }
-
-    
-    
 }

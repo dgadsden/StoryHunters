@@ -32,6 +32,7 @@ class LibraryScreenViewController: UIViewController {
         
         mainScreen.addBookButton.addTarget(self, action: #selector(onButtonAddTapped), for: .touchUpInside)
         mainScreen.subscribeButton.addTarget(self, action: #selector(onButtonSubscribeTapped), for: .touchUpInside)
+        mainScreen.markVisitedButton.addTarget(self, action: #selector(onButtonVisitedTapped), for: .touchUpInside)
         if let library {
                 mainScreen.mapView.centerToLocation(
                     location: CLLocation(
@@ -112,11 +113,8 @@ class LibraryScreenViewController: UIViewController {
                                         }
                                     }
                                 }
-   
                             }
                         }
-                        
-
                     }
                 }catch{
                     print("Error adding document!")
@@ -124,8 +122,33 @@ class LibraryScreenViewController: UIViewController {
             }
         }
     
-
-
+    @objc func onButtonVisitedTapped(){
+        do {
+            if let user = Auth.auth().currentUser {
+                if let userEmail = user.email {
+                    if let library = library {
+                        if let libraryTitle = library.title {
+                            let libraryVisited = database
+                                .collection("users")
+                                .document(userEmail)
+                                .collection("librariesVisited")
+                                .document(libraryTitle)
+                            let libraryVisitedData = LibraryVisited(libraryName: libraryTitle)
+                            try libraryVisited.setData(from: libraryVisitedData) { error in
+                                if error == nil{
+                                    self.showAlert(title: "Success", message: "Library added")
+                                } else {
+                                    self.showAlert(title: "Error", message: "Failed to add library")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch {
+            print("Error adding library: \(error)")
+        }
+    }
     
     func TakeOutBook(book: Int) {
         let selectedBook = books[book]

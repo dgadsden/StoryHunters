@@ -12,6 +12,7 @@ class LibraryScreen: UIView {
     var tableViewBooks: UITableView!
     var addBookButton: UIButton!
     var subscribeButton: UIButton!
+    var markVisitedButton: UIButton!
     var bookIcon: UIImageView!
     
     override init(frame: CGRect) {
@@ -22,6 +23,7 @@ class LibraryScreen: UIView {
         setupTableViewBooks()
         setupAddBookButton()
         setupSubscribeButton()
+        setupMarkVisitedButton()
         setupBookIcon()
         initConstraints()
     }
@@ -53,11 +55,18 @@ class LibraryScreen: UIView {
         self.addSubview(addBookButton)
     }
     func setupSubscribeButton(){
-            subscribeButton = UIButton(type: .system)
-            subscribeButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
-            subscribeButton.setTitle("Subscribe to this library", for: .normal)
-            subscribeButton.translatesAutoresizingMaskIntoConstraints = false
-            self.addSubview(subscribeButton)
+        subscribeButton = UIButton(type: .system)
+        subscribeButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        subscribeButton.setTitle("Subscribe to library", for: .normal)
+        subscribeButton.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(subscribeButton)
+    }
+    func setupMarkVisitedButton(){
+        markVisitedButton = UIButton(type: .system)
+        markVisitedButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
+        markVisitedButton.setTitle("Mark as 'visited'", for: .normal)
+        markVisitedButton.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(markVisitedButton)
     }
     func setupBookIcon(){
         bookIcon = UIImageView(image: UIImage(systemName: "book.pages"))
@@ -83,7 +92,12 @@ class LibraryScreen: UIView {
             addBookButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             
             subscribeButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -4),
-            subscribeButton.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+            subscribeButton.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+            subscribeButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+            
+            markVisitedButton.bottomAnchor.constraint(equalTo: subscribeButton.bottomAnchor),
+            markVisitedButton.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+            markVisitedButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
 
             tableViewBooks.topAnchor.constraint(equalTo: labelBooks.bottomAnchor, constant: 8),
             tableViewBooks.bottomAnchor.constraint(equalTo: subscribeButton.topAnchor),

@@ -10,6 +10,7 @@
 		1432FD942CDC22FF00DE5A55 /* StoryHuntersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1432FD932CDC22FF00DE5A55 /* StoryHuntersTests.swift */; };
 		1432FD9E2CDC22FF00DE5A55 /* StoryHuntersUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1432FD9D2CDC22FF00DE5A55 /* StoryHuntersUITests.swift */; };
 		1432FDA02CDC22FF00DE5A55 /* StoryHuntersUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1432FD9F2CDC22FF00DE5A55 /* StoryHuntersUITestsLaunchTests.swift */; };
+		144A94112CFCAFAA00BA9213 /* LibraryVisited.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144A94102CFCAF9A00BA9213 /* LibraryVisited.swift */; };
 		144B1E512CF6C9A70027F022 /* LibraryUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144B1E4E2CF6C9A70027F022 /* LibraryUpdate.swift */; };
 		144B1E522CF6C9A70027F022 /* Library.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144B1E4D2CF6C9A70027F022 /* Library.swift */; };
 		144B1E532CF6C9A70027F022 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 144B1E4F2CF6C9A70027F022 /* User.swift */; };
@@ -66,6 +67,7 @@
 		1432FD992CDC22FF00DE5A55 /* StoryHuntersUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StoryHuntersUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1432FD9D2CDC22FF00DE5A55 /* StoryHuntersUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryHuntersUITests.swift; sourceTree = "<group>"; };
 		1432FD9F2CDC22FF00DE5A55 /* StoryHuntersUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryHuntersUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		144A94102CFCAF9A00BA9213 /* LibraryVisited.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryVisited.swift; sourceTree = "<group>"; };
 		144B1E4C2CF6C9A70027F022 /* Book.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
 		144B1E4D2CF6C9A70027F022 /* Library.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Library.swift; sourceTree = "<group>"; };
 		144B1E4E2CF6C9A70027F022 /* LibraryUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryUpdate.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 		144B1E502CF6C9A70027F022 /* Data Models 2 */ = {
 			isa = PBXGroup;
 			children = (
+				144A94102CFCAF9A00BA9213 /* LibraryVisited.swift */,
 				144B1E4C2CF6C9A70027F022 /* Book.swift */,
 				144B1E4D2CF6C9A70027F022 /* Library.swift */,
 				144B1E4E2CF6C9A70027F022 /* LibraryUpdate.swift */,
@@ -416,6 +419,7 @@
 				27DFB2632CDD50CA00C403B5 /* SceneDelegate.swift in Sources */,
 				27DFB2642CDD50CA00C403B5 /* MapView.swift in Sources */,
 				27DFB2652CDD50CA00C403B5 /* LibraryScreenViewController.swift in Sources */,
+				144A94112CFCAFAA00BA9213 /* LibraryVisited.swift in Sources */,
 				27DFB2702CDD51A100C403B5 /* LoginScreenView.swift in Sources */,
 				27DFB2712CDD51A100C403B5 /* LoginScreenViewController.swift in Sources */,
 				27DFB2662CDD50CA00C403B5 /* AddBookScreen.swift in Sources */,
