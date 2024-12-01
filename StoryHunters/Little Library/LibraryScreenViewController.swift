@@ -106,9 +106,9 @@ class LibraryScreenViewController: UIViewController {
                                         .document(userEmail.lowercased())
                                     try subscriber.setData(from: userdb) { error in
                                         if error == nil{
-                                            self.showAlert(message: "Library added")
+                                            self.showAlert(title: "Success", message: "Library added")
                                         } else {
-                                            self.showAlert(message: "Failed to add library")
+                                            self.showAlert(title: "Error", message: "Failed to add library")
                                         }
                                     }
                                 }
@@ -127,32 +127,24 @@ class LibraryScreenViewController: UIViewController {
 
 
     
-    func deleteSelectedFor(book: Int) {
-        print("made it here 1")
+    func TakeOutBook(book: Int) {
         let selectedBook = books[book]
-        
         if let library = library {
-            print("made it here 2")
             if let libraryID = library.id {
-                print("made it here 3")
                 let collectionBooks = database
                     .collection("Libraries")
                     .document(libraryID)
                     .collection("books")
-                print("made it here 4")
                 if let bookID = selectedBook.id {
                     
                     collectionBooks.document(bookID).delete { error in
                         if let error = error {
-                            print("Error deleting book: \(error)")
+                            print("Error taking out book: \(error)")
                         } else {
-                            print("Book deleted successfully")
-                            
-                            // Update the local data source
-                            self.books.remove(at: book)
-                            
                             // Reload the table view
                             self.mainScreen.tableViewBooks.reloadData()
+                            
+                            self.addBookToUser(book: selectedBook)
                         }
                     }
                 } else {
@@ -162,8 +154,35 @@ class LibraryScreenViewController: UIViewController {
         }
     }
     
-    private func showAlert(message: String) {
-        let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
+    func addBookToUser(book: Book) {
+        if let user = Auth.auth().currentUser {
+            if let userEmail = user.email {
+                let titleAuthor = [book.title, book.author].joined()
+                let bookID = titleAuthor.lowercased()
+                let addedBook = database
+                    .collection("users")
+                    .document(userEmail)
+                    .collection("booksTaken")
+                    .document(bookID)
+                do {
+                    try addedBook.setData(from: book) { error in
+                        if let error {
+                            self.showAlert(title: "Error",message: error.localizedDescription)
+                        } else {
+                            print("Book added to user's library")
+                        }
+                    }
+                }
+                catch {
+                    print("Error encoding book: \(error.localizedDescription)")
+                    self.showAlert(title: "Error", message: "Error encoding user data: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    private func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default))
         present(alertController, animated: true)
     }
@@ -183,13 +202,13 @@ extension LibraryScreenViewController: UITableViewDelegate, UITableViewDataSourc
         buttonOptions.sizeToFit()
         buttonOptions.showsMenuAsPrimaryAction = true
         //MARK: setting an icon from sf symbols...
-        buttonOptions.setImage(UIImage(systemName: "trash"), for: .normal)
+        buttonOptions.setImage(UIImage(systemName: "plus.square.fill"), for: .normal)
         
         //MARK: setting up menu for button options click...
-        buttonOptions.menu = UIMenu(title: "Delete book?",
+        buttonOptions.menu = UIMenu(title: "Would you like to take this book?",
                                     children: [
-                                        UIAction(title: "Delete",handler: {(_) in
-                                            self.deleteSelectedFor(book: indexPath.row)
+                                        UIAction(title: "Borrow",handler: {(_) in
+                                            self.TakeOutBook(book: indexPath.row)
                                         })
                                     ])
         //MARK: setting the button as an accessory of the cell...

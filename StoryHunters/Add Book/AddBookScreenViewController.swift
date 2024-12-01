@@ -34,8 +34,7 @@ class AddBookScreenViewController: UIViewController {
            let rating = mainScreen.ratingNumber.text {
             let titleAndAuthor = [title, author]
             let titleAuthorString = titleAndAuthor.joined()
-            let hash = SHA256.hash(data: Data(titleAuthorString.utf8))
-            let bookID = hash.compactMap { String(format: "%02x", $0) }.joined()
+            let bookID = titleAuthorString.lowercased()
             let book = Book(id: bookID, title: title, author: author, rating: Double(rating)!)
             self.saveBookToFirestore(book: book)
         }
@@ -43,19 +42,22 @@ class AddBookScreenViewController: UIViewController {
     
     func saveBookToFirestore(book: Book) {
         if let library = library {
-            if let libraryID = library.id {
-                let collectionBooks = database
-                    .collection("Libraries")
-                    .document(libraryID)
-                    .collection("books")
-                do{
-                    try collectionBooks.addDocument(from: book, completion: {(error) in
-                        if error == nil{
-                            self.navigationController?.popViewController(animated: true)
+            if let bookID = book.id {
+                if let libraryID = library.id {
+                    let collectionBooks = database
+                        .collection("Libraries")
+                        .document(libraryID)
+                        .collection("books")
+                        .document(bookID)
+                    do{
+                        try collectionBooks.setData(from: book) { error in
+                            if error == nil{
+                                self.navigationController?.popViewController(animated: true)
+                            }
                         }
-                    })
-                }catch{
-                    print("Error adding document!")
+                    }catch{
+                        print("Error adding document!")
+                    }
                 }
             }
         }
