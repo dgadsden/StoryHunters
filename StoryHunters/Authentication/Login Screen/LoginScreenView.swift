@@ -64,7 +64,7 @@ class LoginScreenView: UIView {
     
     func setupLoginLabel(){
         loginLabel = UILabel()
-        loginLabel.text = "Login"
+        loginLabel.text = "Sign In"
         loginLabel.font = .systemFont(ofSize: 24, weight: .bold)
         loginLabel.translatesAutoresizingMaskIntoConstraints = false
         contentWrapper.addSubview(loginLabel)
@@ -72,7 +72,7 @@ class LoginScreenView: UIView {
     
     func setupEmailTextField() {
         emailTextField = UITextField()
-        emailTextField.placeholder = "Username or Email..."
+        emailTextField.placeholder = "Email"
         emailTextField.returnKeyType = .next
         emailTextField.autocapitalizationType = .none
         emailTextField.autocorrectionType = .no
@@ -89,7 +89,7 @@ class LoginScreenView: UIView {
     
     func setupPasswordTextField() {
         passwordTextField = UITextField()
-        passwordTextField.placeholder = "Password..."
+        passwordTextField.placeholder = "Password"
         passwordTextField.isSecureTextEntry = true
         passwordTextField.returnKeyType = .continue
         passwordTextField.autocapitalizationType = .none
@@ -119,7 +119,7 @@ class LoginScreenView: UIView {
     
     func setupRegisterButton() {
         registerButton = UIButton(type: .system)
-        registerButton.setTitle("New User? Create an Account", for: .normal)
+        registerButton.setTitle("Don't have an account? Register", for: .normal)
         registerButton.setTitleColor(.label, for: .normal)
         registerButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
         registerButton.translatesAutoresizingMaskIntoConstraints = false

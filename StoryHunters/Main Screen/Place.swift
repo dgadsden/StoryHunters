@@ -5,6 +5,7 @@
 //  Created by Lia Shechter on 11/5/24.
 //
 
+import Foundation
 import MapKit
 import UIKit
 
@@ -35,11 +36,3 @@ class Place: NSObject, MKAnnotation {
     }
 }
 
-//
-//  Place.swift
-//  StoryHunters
-//
-//  Created by Lia Shechter on 11/6/24.
-//
-
-import Foundation

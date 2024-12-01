@@ -77,7 +77,7 @@ class RegisterScreenView: UIView {
     
     func setupBackButton() {
         backButton = UIButton(type: .system)
-        backButton.setTitle("Back to Login", for: .normal)
+        backButton.setTitle("Already have an account? Login", for: .normal)
         backButton.titleLabel?.font = .systemFont(ofSize: 14)
         backButton.setTitleColor(.gray, for: .normal)
         backButton.translatesAutoresizingMaskIntoConstraints = false

@@ -15,44 +15,50 @@ class ViewController: UIViewController {
     let database = Firestore.firestore()
     
     var handleAuth: AuthStateDidChangeListenerHandle?
-    var currentUser:FirebaseAuth.User?
+    var currentUser: FirebaseAuth.User?
     
     let locationManager = CLLocationManager()
     
     override func loadView() {
         view = mapView
     }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mapView.buttonCurrentLocation.addTarget(self, action: #selector(onButtonCurrentLocationTapped), for: .touchUpInside)
-        
         setupLocationManager()
-        
-        //MARK: center the map view to current location when the app loads...
-        onButtonCurrentLocationTapped()
-        
+        onButtonCurrentLocationTapped() // Center the map on load
         mapView.mapView.delegate = self
         mapView.mapView.showsUserLocation = false
         updateMapPins()
-        
-        self.setupRightBarButton()
+        setupRightBarButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-            super.viewWillAppear(animated)
+        super.viewWillAppear(animated)
+        
+        // Handle authentication state changes
+        handleAuth = Auth.auth().addStateDidChangeListener { [weak self] auth, user in
+            guard let self = self else { return }
             
-            //MARK: handling if the Authentication state is changed (sign in, sign out, register)...
-            handleAuth = Auth.auth().addStateDidChangeListener{ auth, user in
-                if user == nil{
-                    let loginController = LoginScreenViewController()
-                    loginController.modalPresentationStyle = .fullScreen
-                    self.present(loginController, animated: true, completion: nil)
-                }else{
-                    //MARK: the user is signed in...
-                }
+            if user == nil {
+                self.navigateToLoginScreen()
+            } else {
+                self.currentUser = user
+                self.loadUserData()
             }
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        // Remove the authentication listener to avoid memory leaks
+        if let handleAuth = handleAuth {
+            Auth.auth().removeStateDidChangeListener(handleAuth)
+        }
+    }
     
     @objc func onButtonCurrentLocationTapped(){
         if let uwLocation = locationManager.location{
@@ -61,28 +67,26 @@ class ViewController: UIViewController {
     }
     
     @objc func onProfileBarButtonTapped() {
-            let profileVC = ProfileViewController()
-            navigationController?.pushViewController(profileVC, animated: true)
-        }
+        let profileVC = ProfileViewController()
+        navigationController?.pushViewController(profileVC, animated: true)
+    }
     
     func updateMapPins() {
-        //TODO: Maybe change root doc to "libraries"
-        database.collection("Libraries").getDocuments(){ querySnapshot, error in
-            if let error{
+        database.collection("Libraries").getDocuments { querySnapshot, error in
+            if let error = error {
                 print("Error fetching documents: \(error)")
-            }else{
+            } else {
                 print("Documents fetched successfully.")
-                for document in querySnapshot!.documents{
+                for document in querySnapshot!.documents {
                     guard let title = document.get("title") as? String,
-                                          let info = document.get("info") as? String,
-                                          let geopoint = document.get("coordinate") as? GeoPoint else {
-                                        print("Error parsing document: \(document.data())")
-                                        continue
-                                    }
+                          let info = document.get("info") as? String,
+                          let geopoint = document.get("coordinate") as? GeoPoint else {
+                        print("Error parsing document: \(document.data())")
+                        continue
+                    }
                     let id = document.documentID
                     let coordinate = CLLocationCoordinate2D(latitude: geopoint.latitude, longitude: geopoint.longitude)
                     let library = Library(id: id, title: title, coordinate: coordinate, info: info)
-                    print("Adding library: \(title) at \(coordinate.latitude), \(coordinate.longitude)")
                     self.mapView.mapView.addAnnotation(library)
                 }
             }
@@ -98,15 +102,27 @@ class ViewController: UIViewController {
         )
         navigationItem.rightBarButtonItem = barIcon
     }
-}
-extension MKMapView{
-    func centerToLocation(location: CLLocation, radius: CLLocationDistance = 1000){
-        let coordinateRegion = MKCoordinateRegion(
-            center: location.coordinate,
-            latitudinalMeters: radius,
-            longitudinalMeters: radius
-        )
-        setRegion(coordinateRegion, animated: true)
+    
+    func navigateToLoginScreen() {
+        let loginVC = LoginController() // Use the new LoginController
+        loginVC.modalPresentationStyle = .fullScreen
+        present(loginVC, animated: true, completion: nil)
+    }
+    
+    func loadUserData() {
+        guard let user = currentUser else { return }
+        print("User is signed in: \(user.email ?? "Unknown Email")")
+        // Fetch user-specific data from Firestore or other backend services
     }
 }
 
+
+extension MKMapView {
+    func centerToLocation(location: CLLocation, regionRadius: CLLocationDistance = 1000) {
+        let coordinateRegion = MKCoordinateRegion(
+            center: location.coordinate,
+            latitudinalMeters: regionRadius,
+            longitudinalMeters: regionRadius)
+        setRegion(coordinateRegion, animated: true)
+    }
+}

@@ -11,7 +11,7 @@ import FirebaseAuth
 
 class LoginScreenViewController: UIViewController {
 
-    let loginScreen = LoginScreenView()
+    let loginScreen = LoginView()
     var pickedImage: UIImage?
     
     override func loadView() {
@@ -20,7 +20,7 @@ class LoginScreenViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        //title = "SignUp"
 
         loginScreen.loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         loginScreen.registerButton.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
@@ -45,8 +45,7 @@ class LoginScreenViewController: UIViewController {
     
     @objc func registerButtonTapped() {
         let registerController = RegisterScreenViewController()
-        registerController.modalPresentationStyle = .fullScreen
-        present(registerController, animated: true, completion: nil)
+        navigationController?.pushViewController(registerController, animated: true)
     }
     
     @objc func dismissLogin() {
