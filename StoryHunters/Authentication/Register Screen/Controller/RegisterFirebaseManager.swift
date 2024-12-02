@@ -9,10 +9,11 @@ import Foundation
 import FirebaseAuth
 
 extension RegisterController{
+    
     func uploadProfilePhotoToStorage(){
         var profilePhotoURL:URL?
         
-        //MARK: Upload the profile photo if there is any...
+        //MARK: Upload the profile photo if there is any
         if let image = pickedImage{
             if let jpegData = image.jpegData(compressionQuality: 80){
                 let storageRef = storage.reference()

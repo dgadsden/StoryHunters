@@ -14,6 +14,7 @@ class RegisterController: UIViewController {
 
     let registerView = RegisterView()
     let childProgressView = ProgressSpinnerViewController()
+    // Image to Firestore
     let storage = Storage.storage()
     var pickedImage:UIImage?
     
@@ -88,13 +89,13 @@ class RegisterController: UIViewController {
         return emailPred.evaluate(with: email)
     }
     
-    private func showActivityIndicator(){
+    func showActivityIndicator(){
         addChild(childProgressView)
         view.addSubview(childProgressView.view)
         childProgressView.didMove(toParent: self)
     }
     
-    private func hideActivityIndicator(){
+    func hideActivityIndicator(){
         childProgressView.willMove(toParent: nil)
         childProgressView.view.removeFromSuperview()
         childProgressView.removeFromParent()
@@ -139,7 +140,7 @@ class RegisterController: UIViewController {
         present(photoPicker, animated: true, completion: nil)
     }
     
-    private func showErrorAlert(alert: String){
+    func showErrorAlert(alert: String){
         let alert = UIAlertController(title: "Error!", message: alert, preferredStyle: .alert)
         
         alert.addAction(UIAlertAction(title: "OK", style: .default))
