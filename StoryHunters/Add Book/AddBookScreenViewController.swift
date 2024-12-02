@@ -7,6 +7,8 @@
 import UIKit
 import CryptoKit
 import FirebaseFirestore
+import FirebaseAuth
+
 class AddBookScreenViewController: UIViewController {
     
     let mainScreen = AddBookScreen()
@@ -52,6 +54,7 @@ class AddBookScreenViewController: UIViewController {
                     do{
                         try collectionBooks.setData(from: book) { error in
                             if error == nil{
+                                self.addBookToUser(book: book)
                                 self.notifyUsers(book: book)
                                 self.navigationController?.popViewController(animated: true)
                             }
@@ -59,6 +62,33 @@ class AddBookScreenViewController: UIViewController {
                     }catch{
                         print("Error adding document!")
                     }
+                }
+            }
+        }
+    }
+    
+    func addBookToUser(book: Book) {
+        if let user = Auth.auth().currentUser {
+            if let userEmail = user.email {
+                let titleAuthor = [book.title, book.author].joined()
+                let bookID = titleAuthor.lowercased()
+                let addedBook = database
+                    .collection("users")
+                    .document(userEmail)
+                    .collection("booksDonated")
+                    .document(bookID)
+                do {
+                    try addedBook.setData(from: book) { error in
+                        if let error {
+                            self.showAlert(title: "Error",message: error.localizedDescription)
+                        } else {
+                            print("Book added to user's library")
+                        }
+                    }
+                }
+                catch {
+                    print("Error encoding book: \(error.localizedDescription)")
+                    self.showAlert(title: "Error", message: "Error encoding user data: \(error.localizedDescription)")
                 }
             }
         }
@@ -120,5 +150,11 @@ class AddBookScreenViewController: UIViewController {
                     }
                 }
             }
+    }
+    
+    private func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alertController, animated: true)
     }
 }
