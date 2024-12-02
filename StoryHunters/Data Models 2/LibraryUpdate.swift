@@ -5,7 +5,7 @@
 //  Created by Lia Shechter on 11/20/24.
 //
 
-struct LibraryUpdate{
+struct LibraryUpdate: Codable{
     var dateTime: String
     var message: String
     
