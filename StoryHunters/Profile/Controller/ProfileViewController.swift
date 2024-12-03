@@ -98,7 +98,10 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             navigationController?.pushViewController(listViewController, animated: true)
             print("Visited Libraries selected")
         case 1:
+            let vistedViewController = VisitedLibrariesViewController()
+            navigationController?.pushViewController(vistedViewController, animated: true)
             print("Visited selected")
+            
         case 2:
             print("Books selected")
             let currentBookViewController = CurrentBooksViewController()
