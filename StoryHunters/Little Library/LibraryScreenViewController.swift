@@ -100,16 +100,31 @@ class LibraryScreenViewController: UIViewController {
                             if let userName = user.displayName {
                                 let userdb = User(name: userName, email:userEmail)
                                 if let libraryID = library.id {
-                                    let subscriber = database
-                                        .collection("Libraries")
-                                        .document(libraryID)
-                                        .collection("subscribers")
-                                        .document(userEmail.lowercased())
-                                    try subscriber.setData(from: userdb) { error in
-                                        if error == nil{
-                                            self.showAlert(title: "Success", message: "Library added")
-                                        } else {
-                                            self.showAlert(title: "Error", message: "Failed to add library")
+                                    if let libraryTitle = library.title {
+                                        let subscriber = database
+                                            .collection("Libraries")
+                                            .document(libraryID)
+                                            .collection("subscribers")
+                                            .document(userEmail.lowercased())
+                                        let subscribedLibrary = database
+                                            .collection("users")
+                                            .document(userEmail)
+                                            .collection("librariesSubscribed")
+                                            .document(libraryTitle)
+                                        let librarySubscribeData = LibraryVisited(libraryName: libraryTitle)
+                                        try subscriber.setData(from: userdb) { error in
+                                            if error == nil{
+                                                self.showAlert(title: "Success", message: "Library added")
+                                            } else {
+                                                self.showAlert(title: "Error", message: "Failed to add library")
+                                            }
+                                        }
+                                        try subscribedLibrary.setData(from: librarySubscribeData) { error in
+                                            if error == nil{
+                                                print("Success, Library added")
+                                            } else {
+                                                print("Error, Failed to add library")
+                                            }
                                         }
                                     }
                                 }
