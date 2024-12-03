@@ -7,10 +7,8 @@ import FirebaseAuth
 
 final class ProfileViewController: UIViewController {
     
-    
     private var profileView: ProfileView!
     let database = Firestore.firestore()
-    var booksList: [Book] = []
     var handleAuth: AuthStateDidChangeListenerHandle?
     
     
@@ -24,17 +22,16 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         setupDelegates()
-        loadUserBooksData()
+        loadUserDetails()
+        // loadUserBooksData()
         
         title = "Profile"
         
     }
     
     private func setupDelegates() {
-        //           profileView.collectionView.delegate = self
-        //           profileView.collectionView.dataSource = self
-        profileView.tableViewBooks.delegate = self
-        profileView.tableViewBooks.dataSource = self
+        profileView.profileOptionsTableView.dataSource = self
+        profileView.profileOptionsTableView.delegate = self
     }
     
     private func configureNavigationBar() {
@@ -61,29 +58,62 @@ final class ProfileViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
-    func loadUserBooksData() {
-            let db = Firestore.firestore()
-            let userEmail = Auth.auth().currentUser?.email ?? ""
-            let userBooksCollection = db.collection("users").document(userEmail).collection("books")
-            userBooksCollection.getDocuments { snapshot, error in
-                if let error = error {
-                    print("Error fetching books: \(error.localizedDescription)")
-                    return
-                }
-                guard let documents = snapshot?.documents else {
-                    print("No books found for user \(userEmail).")
-                    return
-                }
-                self.booksList = documents.compactMap { doc -> Book? in
-                    try? doc.data(as: Book.self) // Decodes Firestore data into Book objects
-                }
-                DispatchQueue.main.async {
-                    print("Books loaded: \(self.booksList.count)")
-                    self.profileView.tableViewBooks.reloadData() // Use profileView's tableView
-                }
-            }
+    func loadUserDetails() {
+        let currentUser = Auth.auth().currentUser
+        if currentUser != nil {
+            profileView.nameLabel.text = currentUser?.displayName
         }
+    }
 }
+extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 4 // Libraries, Visited, Books, Books Taken
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileOptionCell", for: indexPath) as! ProfileOptionsTableViewCell
+        
+        switch indexPath.row {
+        case 0:
+            cell.labelName.text = "Subscribed Libraries"
+        case 1:
+            cell.labelName.text = "Visited Libraries"
+        case 2:
+            cell.labelName.text = "Currently Borrowed Books"
+        case 3:
+            cell.labelName.text = "All Time Book History"
+        default:
+            break
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // Handle what happens when a user selects an option
+        switch indexPath.row {
+        case 0:
+            let listViewController = ListViewController()
+            navigationController?.pushViewController(listViewController, animated: true)
+            print("Visited Libraries selected")
+        case 1:
+            print("Visited selected")
+        case 2:
+            print("Books selected")
+            let currentBookViewController = CurrentBooksViewController()
+            navigationController?.pushViewController(currentBookViewController, animated: true)
+            print("Books Taken selected")
+        case 3:
+            let allBookViewController = AllBooksViewController()
+            navigationController?.pushViewController(allBookViewController, animated: true)
+            print("Books Taken selected")
+        default:
+            break
+        }
+    }
+}
+
 /*
  extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
