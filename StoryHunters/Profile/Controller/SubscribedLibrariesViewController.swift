@@ -9,9 +9,12 @@ import UIKit
 import Firebase
 import FirebaseAuth
 import FirebaseFirestore
+import MapKit
 
 class SubscribedLibrariesViewController: UIViewController {
 
+    let database = Firestore.firestore()
+    
     var tableView: UITableView!
     var visitedLibrariesList: [LibraryVisited] = []  // Array to hold Library objects
     
@@ -86,5 +89,31 @@ extension SubscribedLibrariesViewController: UITableViewDelegate, UITableViewDat
         
         
         return cell
+    }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedLibrary = visitedLibrariesList[indexPath.row]
+        database.collection("Libraries").getDocuments { querySnapshot, error in
+            if let error = error {
+                print("Error fetching documents: \(error)")
+            } else {
+                print("Documents fetched successfully.")
+                for document in querySnapshot!.documents {
+                    guard let title = document.get("title") as? String,
+                          let info = document.get("info") as? String,
+                          let geopoint = document.get("coordinate") as? GeoPoint else {
+                        print("Error parsing document: \(document.data())")
+                        continue
+                    }
+                    if(title == selectedLibrary.libraryName) {
+                        let id = document.documentID
+                        let coordinate = CLLocationCoordinate2D(latitude: geopoint.latitude, longitude: geopoint.longitude)
+                        let library = Library(id: id, title: title, coordinate: coordinate, info: info)
+                        let libraryScreenViewController = LibraryScreenViewController()
+                        libraryScreenViewController.library = library
+                        self.navigationController?.pushViewController(libraryScreenViewController, animated: true)
+                    }
+                }
+            }
+        }
     }
 }

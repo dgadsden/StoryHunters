@@ -17,6 +17,28 @@ class LibraryScreenViewController: UIViewController {
     var books = [Book]()
     
     override func loadView() {
+        if let userEmail = Auth.auth().currentUser?.email,
+           let libraryTitle = library?.title {
+            let subscribedLibraries = database
+                .collection("users")
+                .document(userEmail)
+                .collection("librariesSubscribed")
+                .document(libraryTitle) // Reference the specific document
+
+            subscribedLibraries.getDocument { (document, error) in
+                if let error = error {
+                    print("Error checking document existence: \(error.localizedDescription)")
+                } else if let document = document, document.exists {
+                    print("Document with ID '\(libraryTitle)' exists!")
+                    self.mainScreen.isSubscribed = true
+                    self.mainScreen.updateSubscribeButtonTitle()
+                } else {
+                    print("Document with ID '\(libraryTitle)' does not exist.")
+                    self.mainScreen.isSubscribed = false
+                    self.mainScreen.updateSubscribeButtonTitle()
+                }
+            }
+        }
         view = mainScreen
     }
     override func viewDidLoad() {
@@ -45,6 +67,7 @@ class LibraryScreenViewController: UIViewController {
             mainScreen.mapView.showsUserLocation = false
             mainScreen.mapView.addAnnotation(library)
         }
+
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(mapTapped))
         mainScreen.mapView.addGestureRecognizer(tapGesture)
