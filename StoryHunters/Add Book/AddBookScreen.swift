@@ -8,7 +8,7 @@ import UIKit
 class AddBookScreen: UIView {
     var contentWrapper:UIScrollView!
     var usersBooksLabel: UILabel!
-    var usersBooks: UITableView!
+    var usersBooksButton: UIButton!
     
     var newBookLabel: UILabel!
     var title: UITextField!
@@ -49,10 +49,20 @@ class AddBookScreen: UIView {
         self.addSubview(usersBooksLabel)
     }
     func setupUsersBooks(){
-        usersBooks = UITableView()
-        usersBooks.register(BooksTableViewCell.self, forCellReuseIdentifier: "books")
-        usersBooks.translatesAutoresizingMaskIntoConstraints = false
-        self.addSubview(usersBooks)
+        usersBooksButton = UIButton(type: .system)
+        usersBooksButton.setTitle("Your books", for: .normal)
+        usersBooksButton.tintColor = .black
+        usersBooksButton.backgroundColor = .lightGray.withAlphaComponent(0.2)
+        usersBooksButton.layer.cornerRadius = 8
+        usersBooksButton.layer.borderWidth = 1.5
+        usersBooksButton.layer.borderColor = UIColor.gray.cgColor
+        usersBooksButton.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        usersBooksButton.layer.shadowColor = UIColor.black.cgColor
+        usersBooksButton.layer.shadowOpacity = 0.1
+        usersBooksButton.layer.shadowOffset = CGSize(width: 2, height: 2)
+        usersBooksButton.layer.shadowRadius = 3
+        usersBooksButton.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(usersBooksButton)
     }
     func setupNewBookLabel(){
         newBookLabel = UILabel()
@@ -114,34 +124,33 @@ class AddBookScreen: UIView {
             usersBooksLabel.topAnchor.constraint(equalTo: contentWrapper.topAnchor, constant: 32),
             usersBooksLabel.leadingAnchor.constraint(equalTo: contentWrapper.leadingAnchor, constant: 16),
             
-            buttonAddBook.bottomAnchor.constraint(equalTo: contentWrapper.bottomAnchor, constant: -32),
-            buttonAddBook.centerXAnchor.constraint(equalTo: contentWrapper.centerXAnchor),
+            usersBooksButton.topAnchor.constraint(equalTo: usersBooksLabel.bottomAnchor, constant: 16),
+            usersBooksButton.leadingAnchor.constraint(equalTo: contentWrapper.leadingAnchor, constant: 16),
+            usersBooksButton.widthAnchor.constraint(equalToConstant: 150),
             
-            ratingLabel.bottomAnchor.constraint(equalTo: buttonAddBook.topAnchor, constant: -32),
+            newBookLabel.topAnchor.constraint(equalTo: usersBooksButton.bottomAnchor, constant: 16),
+            newBookLabel.leadingAnchor.constraint(equalTo: contentWrapper.leadingAnchor, constant: 16),
+            
+            title.topAnchor.constraint(equalTo: newBookLabel.bottomAnchor, constant: 16),
+            title.leadingAnchor.constraint(equalTo: contentWrapper.leadingAnchor, constant: 16),
+            title.trailingAnchor.constraint(equalTo: contentWrapper.trailingAnchor, constant: -16),
+
+            author.topAnchor.constraint(equalTo: title.bottomAnchor, constant: 16),
+            author.leadingAnchor.constraint(equalTo: contentWrapper.leadingAnchor, constant: 16),
+            author.trailingAnchor.constraint(equalTo: contentWrapper.trailingAnchor, constant: -16),
+
+            ratingLabel.topAnchor.constraint(equalTo: author.bottomAnchor, constant: 16),
             ratingLabel.leadingAnchor.constraint(equalTo: contentWrapper.leadingAnchor, constant: 16),
-            
-            ratingNumber.centerYAnchor.constraint(equalTo: buttonAddBook.centerYAnchor),
-            ratingNumber.trailingAnchor.constraint(equalTo: contentWrapper.trailingAnchor, constant: -16),
-            
+
             ratingSlider.centerYAnchor.constraint(equalTo: ratingLabel.centerYAnchor),
             ratingSlider.leadingAnchor.constraint(equalTo: ratingLabel.trailingAnchor, constant: 16),
             ratingSlider.trailingAnchor.constraint(equalTo: ratingNumber.leadingAnchor, constant: -16),
             
-            author.bottomAnchor.constraint(equalTo: ratingSlider.topAnchor, constant: -16),
-            author.leadingAnchor.constraint(equalTo: contentWrapper.leadingAnchor, constant: 16),
-            author.trailingAnchor.constraint(equalTo: contentWrapper.trailingAnchor, constant: -16),
+            ratingNumber.centerYAnchor.constraint(equalTo: ratingLabel.centerYAnchor),
+            ratingNumber.trailingAnchor.constraint(equalTo: contentWrapper.trailingAnchor, constant: -16),
             
-            title.bottomAnchor.constraint(equalTo: author.topAnchor, constant: -16),
-            title.leadingAnchor.constraint(equalTo: contentWrapper.leadingAnchor, constant: 16),
-            title.trailingAnchor.constraint(equalTo: contentWrapper.trailingAnchor, constant: -16),
-            
-            newBookLabel.bottomAnchor.constraint(equalTo: title.topAnchor, constant: -16),
-            newBookLabel.leadingAnchor.constraint(equalTo: contentWrapper.leadingAnchor, constant: 16),
-            
-            usersBooks.topAnchor.constraint(equalTo: usersBooksLabel.bottomAnchor, constant: 32),
-            usersBooks.leadingAnchor.constraint(equalTo: contentWrapper.leadingAnchor, constant: 16),
-            usersBooks.trailingAnchor.constraint(equalTo: contentWrapper.trailingAnchor, constant: -16),
-            usersBooks.bottomAnchor.constraint(equalTo: newBookLabel.topAnchor, constant: -32),
+            buttonAddBook.bottomAnchor.constraint(equalTo: contentWrapper.bottomAnchor, constant: -32),
+            buttonAddBook.centerXAnchor.constraint(equalTo: contentWrapper.centerXAnchor),
             ])
     }
     

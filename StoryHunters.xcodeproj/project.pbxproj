@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1404B7A92CFEB6F30057CA40 /* AddCurrentBookCustomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1404B7A82CFEB6CF0057CA40 /* AddCurrentBookCustomController.swift */; };
 		1432FD942CDC22FF00DE5A55 /* StoryHuntersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1432FD932CDC22FF00DE5A55 /* StoryHuntersTests.swift */; };
 		1432FD9E2CDC22FF00DE5A55 /* StoryHuntersUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1432FD9D2CDC22FF00DE5A55 /* StoryHuntersUITests.swift */; };
 		1432FDA02CDC22FF00DE5A55 /* StoryHuntersUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1432FD9F2CDC22FF00DE5A55 /* StoryHuntersUITestsLaunchTests.swift */; };
@@ -56,6 +57,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1404B7A82CFEB6CF0057CA40 /* AddCurrentBookCustomController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCurrentBookCustomController.swift; sourceTree = "<group>"; };
 		1432FD792CDC22FD00DE5A55 /* StoryHunters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StoryHunters.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1432FD8F2CDC22FF00DE5A55 /* StoryHuntersTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StoryHuntersTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1432FD932CDC22FF00DE5A55 /* StoryHuntersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryHuntersTests.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 		27DFB2462CDD50CA00C403B5 /* Add Book */ = {
 			isa = PBXGroup;
 			children = (
+				1404B7A82CFEB6CF0057CA40 /* AddCurrentBookCustomController.swift */,
 				27DFB2442CDD50CA00C403B5 /* AddBookScreen.swift */,
 				27DFB2452CDD50CA00C403B5 /* AddBookScreenViewController.swift */,
 			);
@@ -386,11 +389,10 @@
 				27DFB2612CDD50CA00C403B5 /* LocationManager.swift in Sources */,
 				27DFB2622CDD50CA00C403B5 /* AddBookScreenViewController.swift in Sources */,
 				27DFB2632CDD50CA00C403B5 /* SceneDelegate.swift in Sources */,
+				1404B7A92CFEB6F30057CA40 /* AddCurrentBookCustomController.swift in Sources */,
 				27DFB2642CDD50CA00C403B5 /* MapView.swift in Sources */,
 				27DFB2652CDD50CA00C403B5 /* LibraryScreenViewController.swift in Sources */,
 				144A94112CFCAFAA00BA9213 /* LibraryVisited.swift in Sources */,
-				27DFB2702CDD51A100C403B5 /* LoginScreenView.swift in Sources */,
-				27DFB2712CDD51A100C403B5 /* LoginScreenViewController.swift in Sources */,
 				27DFB2662CDD50CA00C403B5 /* AddBookScreen.swift in Sources */,
 				27DFB2672CDD50CA00C403B5 /* AppDelegate.swift in Sources */,
 				27DFB2682CDD50CA00C403B5 /* MapAnnotationDelegate.swift in Sources */,
