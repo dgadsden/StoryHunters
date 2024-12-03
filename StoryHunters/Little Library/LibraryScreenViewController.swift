@@ -184,12 +184,24 @@ class LibraryScreenViewController: UIViewController {
             if let userEmail = user.email {
                 let titleAuthor = [book.title, book.author].joined()
                 let bookID = titleAuthor.lowercased()
-                let addedBook = database
+                let addedBookTaken = database
                     .collection("users")
                     .document(userEmail)
                     .collection("booksTaken")
                     .document(bookID)
+                let addedBook = database
+                    .collection("users")
+                    .document(userEmail)
+                    .collection("books")
+                    .document(bookID)
                 do {
+                    try addedBookTaken.setData(from: book) { error in
+                        if let error {
+                            self.showAlert(title: "Error",message: error.localizedDescription)
+                        } else {
+                            print("Book added to user's library")
+                        }
+                    }
                     try addedBook.setData(from: book) { error in
                         if let error {
                             self.showAlert(title: "Error",message: error.localizedDescription)

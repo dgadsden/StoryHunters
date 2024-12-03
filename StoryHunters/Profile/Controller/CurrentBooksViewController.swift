@@ -71,5 +71,4 @@ extension CurrentBooksViewController: UITableViewDelegate, UITableViewDataSource
         cell.labelRating.text = String(format: "%.1f", book.rating ?? 0.0)
         return cell
     }
-    
 }

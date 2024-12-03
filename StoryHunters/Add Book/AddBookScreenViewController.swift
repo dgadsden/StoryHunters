@@ -24,6 +24,7 @@ class AddBookScreenViewController: UIViewController {
         
         mainScreen.ratingSlider.addTarget(self, action: #selector(sliderValueChanged(_:)), for: .valueChanged)
         mainScreen.buttonAddBook.addTarget(self, action: #selector(onButtonAddBookTapped), for: .touchUpInside)
+        mainScreen.usersBooksButton.addTarget(self, action: #selector(onUsersBooksButtonTapped), for: .touchUpInside)
     }
     
     @objc func sliderValueChanged(_ sender: UISlider) {
@@ -40,6 +41,12 @@ class AddBookScreenViewController: UIViewController {
             let book = Book(id: bookID, title: title, author: author, rating: Double(rating)!)
             self.saveBookToFirestore(book: book)
         }
+    }
+    
+    @objc func onUsersBooksButtonTapped() {
+        let addCurrentBookCustomViewController = AddCurrentBookCustomViewController()
+        addCurrentBookCustomViewController.addBookScreenViewController = self
+        navigationController?.pushViewController(addCurrentBookCustomViewController, animated: true)
     }
     
     func saveBookToFirestore(book: Book) {
@@ -77,6 +84,11 @@ class AddBookScreenViewController: UIViewController {
                     .document(userEmail)
                     .collection("booksDonated")
                     .document(bookID)
+                let removedBook = database
+                    .collection("users")
+                    .document(userEmail)
+                    .collection("books")
+                    .document(bookID)
                 do {
                     try addedBook.setData(from: book) { error in
                         if let error {
@@ -85,6 +97,7 @@ class AddBookScreenViewController: UIViewController {
                             print("Book added to user's library")
                         }
                     }
+                    try removedBook.delete()
                 }
                 catch {
                     print("Error encoding book: \(error.localizedDescription)")
