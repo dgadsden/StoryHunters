@@ -112,18 +112,35 @@ class LibraryScreenViewController: UIViewController {
                                             .collection("librariesSubscribed")
                                             .document(libraryTitle)
                                         let librarySubscribeData = LibraryVisited(libraryName: libraryTitle)
-                                        try subscriber.setData(from: userdb) { error in
-                                            if error == nil{
-                                                self.showAlert(title: "Success", message: "Library added")
-                                            } else {
-                                                self.showAlert(title: "Error", message: "Failed to add library")
+                                        if(!mainScreen.isSubscribed) {
+                                            try subscriber.setData(from: userdb) { error in
+                                                if error == nil{
+                                                    self.showAlert(title: "Success", message: "Library added")
+                                                } else {
+                                                    self.showAlert(title: "Error", message: "Failed to add library")
+                                                }
                                             }
-                                        }
-                                        try subscribedLibrary.setData(from: librarySubscribeData) { error in
-                                            if error == nil{
-                                                print("Success, Library added")
-                                            } else {
-                                                print("Error, Failed to add library")
+                                            try subscribedLibrary.setData(from: librarySubscribeData) { error in
+                                                if error == nil{
+                                                    print("Success, Library added")
+                                                } else {
+                                                    print("Error, Failed to add library")
+                                                }
+                                            }
+                                        } else {
+                                            try subscriber.delete() { error in
+                                                if error == nil{
+                                                    self.showAlert(title: "Success", message: "Library removed")
+                                                } else {
+                                                    self.showAlert(title: "Error", message: "Failed to remove library")
+                                                }
+                                            }
+                                            try subscribedLibrary.delete() { error in
+                                                if error == nil{
+                                                    print("Success, Library removed")
+                                                } else {
+                                                    print("Error, Failed to remove library")
+                                                }
                                             }
                                         }
                                     }
@@ -135,6 +152,9 @@ class LibraryScreenViewController: UIViewController {
                     print("Error adding document!")
                 }
             }
+        mainScreen.isSubscribed = !mainScreen.isSubscribed
+        mainScreen.updateSubscribeButtonTitle()
+        print(mainScreen.isSubscribed)
         }
     
     @objc func onButtonVisitedTapped(){

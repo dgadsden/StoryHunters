@@ -35,7 +35,7 @@ class SubscribedLibrariesViewController: UIViewController {
     func loadUserSubscribedLibrariesData() {
         let db = Firestore.firestore()
         let userEmail = Auth.auth().currentUser?.email ?? ""
-        let userLibrariesCollection = db.collection("users").document(userEmail).collection("librariesVisited")
+        let userLibrariesCollection = db.collection("users").document(userEmail).collection("librariesSubscribed")
         
         // Add snapshot listener to observe real-time updates
         userLibrariesCollection.addSnapshotListener { snapshot, error in
