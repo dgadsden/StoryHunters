@@ -37,19 +37,19 @@ final class ProfileViewController: UIViewController {
     private func configureNavigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .done, target: self, action: #selector(didTapSettingsButton))
         
-        // Left back button
-        navigationItem.leftBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "chevron.backward"), // Icon for back button
-            style: .plain,
-            target: self,
-            action: #selector(didTapBackButton)
-        )
+//        // Left back button
+//        navigationItem.leftBarButtonItem = UIBarButtonItem(
+//            image: UIImage(systemName: "chevron.backward"), // Icon for back button
+//            style: .plain,
+//            target: self,
+//            action: #selector(didTapBackButton)
+//        )
         
     }
     
     @objc private func didTapBackButton() {
-        
-        navigationController?.popViewController(animated: true)
+        let mainScreenVC = ViewController()
+        navigationController?.pushViewController(mainScreenVC, animated: true)
     }
     
     @objc private func didTapSettingsButton() {
@@ -94,9 +94,9 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         // Handle what happens when a user selects an option
         switch indexPath.row {
         case 0:
-            let listViewController = ListViewController()
-            navigationController?.pushViewController(listViewController, animated: true)
-            print("Visited Libraries selected")
+            let subscribedViewController = SubscribedLibrariesViewController()
+            navigationController?.pushViewController(subscribedViewController, animated: true)
+            print("Subscribed selected")
         case 1:
             let vistedViewController = VisitedLibrariesViewController()
             navigationController?.pushViewController(vistedViewController, animated: true)

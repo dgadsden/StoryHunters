@@ -1,22 +1,23 @@
 //
-//  VisitedLibrariesViewController.swift
+//  SubscribedLibrariesViewController.swift
 //  StoryHunters
 //
-//  Created by Dejah Gadsden on 12/2/24.
+//  Created by Dejah Gadsden on 12/3/24.
 //
 
 import UIKit
-import FirebaseFirestore
+import Firebase
 import FirebaseAuth
+import FirebaseFirestore
 
-class VisitedLibrariesViewController: UIViewController {
-    
+class SubscribedLibrariesViewController: UIViewController {
+
     var tableView: UITableView!
     var visitedLibrariesList: [LibraryVisited] = []  // Array to hold Library objects
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Visited Libraries"
+        title = "Subscribed Libraries"
         
         // Initialize the table view
         tableView = UITableView()
@@ -28,10 +29,10 @@ class VisitedLibrariesViewController: UIViewController {
         self.view.addSubview(tableView)
         
         // Load the visited libraries data
-        loadUserVisitedLibrariesData()
+        loadUserSubscribedLibrariesData()
     }
     
-    func loadUserVisitedLibrariesData() {
+    func loadUserSubscribedLibrariesData() {
         let db = Firestore.firestore()
         let userEmail = Auth.auth().currentUser?.email ?? ""
         let userLibrariesCollection = db.collection("users").document(userEmail).collection("librariesVisited")
@@ -65,7 +66,7 @@ class VisitedLibrariesViewController: UIViewController {
     }
 }
 
-extension VisitedLibrariesViewController: UITableViewDelegate, UITableViewDataSource {
+extension SubscribedLibrariesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return visitedLibrariesList.count
     }

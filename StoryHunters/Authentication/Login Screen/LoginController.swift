@@ -72,8 +72,8 @@ class LoginController: UIViewController {
     }
     
     private func navigateToMainScreen() {
-        let mainScreenVC = ViewController()
-        let navController = UINavigationController(rootViewController: mainScreenVC)
+        let tabController = TabController()
+        let navController = UINavigationController(rootViewController: tabController)
         
         if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let window = scene.windows.first {

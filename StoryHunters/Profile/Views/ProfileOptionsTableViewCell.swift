@@ -28,7 +28,7 @@ class ProfileOptionsTableViewCell: UITableViewCell {
     }
     
     func setupImageArrow() {
-        let image = UIImage(systemName: "chevron.right")
+        let image = UIImage(systemName: "arrow.right")
         arrowImage = UIImageView(image: image)
         arrowImage.tintColor = .gray
         arrowImage.translatesAutoresizingMaskIntoConstraints = false

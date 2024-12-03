@@ -38,20 +38,24 @@ class CurrentBooksViewController: UIViewController {
         let db = Firestore.firestore()
         let userEmail = Auth.auth().currentUser?.email ?? ""
         let userBooksCollection = db.collection("users").document(userEmail).collection("books")
-        userBooksCollection.getDocuments { snapshot, error in
+        userBooksCollection.addSnapshotListener { snapshot, error in
             if let error = error {
-                print("Error fetching books: \(error.localizedDescription)")
+                print("Error observing books: \(error.localizedDescription)")
                 return
             }
             guard let documents = snapshot?.documents else {
                 print("No books found for user \(userEmail).")
+                self.booksList = [] // Clear the list if no books
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
                 return
             }
             self.booksList = documents.compactMap { doc -> Book? in
                 try? doc.data(as: Book.self) // Decodes Firestore data into Book objects
             }
             DispatchQueue.main.async {
-                print("Books loaded: \(self.booksList.count)")
+                print("Books updated: \(self.booksList.count)")
                 self.tableView.reloadData()
             }
         }
