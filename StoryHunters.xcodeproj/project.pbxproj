@@ -38,6 +38,7 @@
 		27DFB27D2CDD52D100C403B5 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 27DFB27C2CDD52D100C403B5 /* FirebaseAuth */; };
 		27DFB27F2CDD52D100C403B5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 27DFB27E2CDD52D100C403B5 /* FirebaseFirestore */; };
 		27DFB2812CDD52D100C403B5 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 27DFB2802CDD52D100C403B5 /* FirebaseStorage */; };
+		36219A2C2CFFC2E300E389EF /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36219A2B2CFFC2E300E389EF /* Notification.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,11 +91,13 @@
 		27DFB2582CDD50CA00C403B5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		27DFB25A2CDD50CA00C403B5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		27DFB2792CDD528700C403B5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		36219A2B2CFFC2E300E389EF /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		24BEF0172CE68F1F008E787F /* Profile */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Profile; sourceTree = "<group>"; };
 		27F6F2942CFBA3230096FF78 /* Progress Indicator */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Progress Indicator"; sourceTree = "<group>"; };
+		36219A242CFFC27500E389EF /* Notifications */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Notifications; sourceTree = "<group>"; };
 		36C0C6B72CFBD54800A09B81 /* Authentication */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Authentication; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -171,6 +174,7 @@
 				144B1E4D2CF6C9A70027F022 /* Library.swift */,
 				144B1E4E2CF6C9A70027F022 /* LibraryUpdate.swift */,
 				144B1E4F2CF6C9A70027F022 /* User.swift */,
+				36219A2B2CFFC2E300E389EF /* Notification.swift */,
 			);
 			path = "Data Models 2";
 			sourceTree = "<group>";
@@ -235,6 +239,7 @@
 				27DFB2592CDD50CA00C403B5 /* Main.storyboard */,
 				27DFB25A2CDD50CA00C403B5 /* SceneDelegate.swift */,
 				144B1E502CF6C9A70027F022 /* Data Models 2 */,
+				36219A242CFFC27500E389EF /* Notifications */,
 			);
 			path = StoryHunters;
 			sourceTree = "<group>";
@@ -257,6 +262,7 @@
 			fileSystemSynchronizedGroups = (
 				24BEF0172CE68F1F008E787F /* Profile */,
 				27F6F2942CFBA3230096FF78 /* Progress Indicator */,
+				36219A242CFFC27500E389EF /* Notifications */,
 				36C0C6B72CFBD54800A09B81 /* Authentication */,
 			);
 			name = StoryHunters;
@@ -385,6 +391,7 @@
 				27DFB25E2CDD50CA00C403B5 /* LibraryScreen.swift in Sources */,
 				27DFB25F2CDD50CA00C403B5 /* Configs.swift in Sources */,
 				144B1E512CF6C9A70027F022 /* LibraryUpdate.swift in Sources */,
+				36219A2C2CFFC2E300E389EF /* Notification.swift in Sources */,
 				144B1E522CF6C9A70027F022 /* Library.swift in Sources */,
 				144B1E532CF6C9A70027F022 /* User.swift in Sources */,
 				144B1E542CF6C9A70027F022 /* Book.swift in Sources */,
