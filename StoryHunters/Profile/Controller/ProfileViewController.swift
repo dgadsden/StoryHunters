@@ -22,7 +22,7 @@ final class ProfileViewController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         setupDelegates()
-        loadUserDetails()
+        //loadUserDetails()
         // loadUserBooksData()
         
         title = "Profile"
