@@ -15,14 +15,22 @@ class ProfileView: UIView {
     var nameLabel: UILabel!
     var profileOptionsTableView: UITableView!
     var tableViewBooks: UITableView!
+    var headerView: ProfileInfoHeaderCollectionReuseableView!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .systemBackground
+        setupHeaderView()
         setupProfileImage()
         setupLabelName()
         setupProfileOptionsTableView()  // Setting up the Profile Options Table
         initConstraints()
+    }
+    
+    func setupHeaderView() {
+        headerView = ProfileInfoHeaderCollectionReuseableView()
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(headerView)
     }
     
     func setupProfileImage() {
@@ -34,7 +42,7 @@ class ProfileView: UIView {
     
     func setupLabelName() {
         nameLabel = UILabel()
-        nameLabel.text = "Name"
+        //nameLabel.text = "Name"
         nameLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         nameLabel.textColor = .label
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -65,16 +73,21 @@ class ProfileView: UIView {
     
     func initConstraints() {
         NSLayoutConstraint.activate([
-            profileImage.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 16),
-            profileImage.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            profileImage.widthAnchor.constraint(equalToConstant: 100),  // Adjust image size
-            profileImage.heightAnchor.constraint(equalToConstant: 100), // Adjust image size
+//            profileImage.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 16),
+//            profileImage.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+//            profileImage.widthAnchor.constraint(equalToConstant: 100),  // Adjust image size
+//            profileImage.heightAnchor.constraint(equalToConstant: 100), // Adjust image size
             
-            nameLabel.topAnchor.constraint(equalTo: profileImage.bottomAnchor, constant: 16),
-            nameLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            headerView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            headerView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            headerView.heightAnchor.constraint(equalToConstant: 300),
+            
+            nameLabel.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 20),
+            nameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -120),
             
             // Set constraints for profileOptionsTableView with a max height
-            profileOptionsTableView.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 32),
+            profileOptionsTableView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 32),
             profileOptionsTableView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             profileOptionsTableView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             profileOptionsTableView.heightAnchor.constraint(lessThanOrEqualToConstant: 240),  // Max height for table view

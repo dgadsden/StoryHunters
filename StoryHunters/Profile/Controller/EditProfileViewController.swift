@@ -1,4 +1,6 @@
 import UIKit
+import FirebaseFirestore
+import FirebaseAuth
 
 struct EditProfileFormModel {
     let label: String
@@ -29,6 +31,8 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
         // Profile photo button action
         customView.profilePhotoButton.addTarget(self, action: #selector(didTapProfilePhotoButton), for: .touchUpInside)
     }
+
+
     
     private func configureModels() {
         let section1Labels = ["Name", "Username", "Bio"]
@@ -39,7 +43,7 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
         }
         models.append(section1)
         
-        let section2Labels = ["Email", "Phone", "Gender"]
+        let section2Labels = ["Phone", "Gender"]
         var section2 = [EditProfileFormModel]()
         for label in section2Labels {
             let model = EditProfileFormModel(label: label, placeholder: "Enter \(label)", value: nil)
@@ -113,9 +117,91 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
         present(imagePickerController, animated: true)
     }
     @objc private func didTapSave() {
-        dismiss(animated: true, completion: nil)                                    
-    
+        guard let user = Auth.auth().currentUser else {
+            showAlert(message: "No logged-in user found!")
+            return
+        }
+        
+        var updatedData: [String: Any] = [:]
+        var updatedBio: String?
+        var updatedName: String?
+        
+        for section in models {
+            for model in section {
+                if let value = model.value, !value.isEmpty {
+                    updatedData[model.label.lowercased()] = value
+                    if model.label.lowercased() == "bio" {
+                        updatedBio = value
+                    } else if model.label.lowercased() == "name" {
+                        updatedName = value
+                    }
+                }
+            }
+        }
+        if let updatedName = models[0][0].value, !updatedName.isEmpty {
+                UserDefaults.standard.set(updatedName, forKey: "name")
+                NotificationCenter.default.post(name: .nameDidChange, object: nil, userInfo: ["name": updatedName])
+            }
+            
+            if let updatedBio = models[0][2].value, !updatedBio.isEmpty {
+                UserDefaults.standard.set(updatedBio, forKey: "bio")
+                NotificationCenter.default.post(name: .bioDidChange, object: nil, userInfo: ["bio": updatedBio])
+            }
+        guard let oldEmail = user.email else {
+            showAlert(message: "Current email not available.")
+            return
+        }
+        
+        if let bio = updatedBio, let name = updatedName {
+            NotificationCenter.default.post(name: .bioDidChange, object: nil, userInfo: ["bio": bio, "name": name])
+        }
+        
+        // Continue updating Firestore or handling email changes
+        updateFirestoreUserData(email: oldEmail, oldEmail: oldEmail, updatedData: updatedData)
+        
+        dismiss(animated: true)
     }
+
+
+    private func updateFirestoreUserData(email: String, oldEmail: String, updatedData: [String: Any]) {
+        let db = Firestore.firestore()
+        let oldUserRef = db.collection("users").document(oldEmail)
+        let newUserRef = db.collection("users").document(email)
+        
+        if oldEmail != email {
+            oldUserRef.getDocument { (document, error) in
+            
+                if let document = document, document.exists {
+                    var existingData = document.data() ?? [:]
+                    updatedData.forEach { existingData[$0.key] = $0.value } // Merge updated data
+                    
+                    newUserRef.setData(existingData) { error in
+                        if let error = error {
+                            
+                            return
+                        }
+                        
+                        oldUserRef.delete { error in
+                            if let error = error {
+                                
+                            } else {
+                               
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            oldUserRef.setData(updatedData, merge: true) { error in
+                if let error = error {
+                    
+                } else {
+                    
+                }
+            }
+        }
+    }
+
     private func showAlert(message: String) {
         let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default))
@@ -131,6 +217,22 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
 
 extension EditProfileViewController: FormTableViewCellDelegate {
     func formTableViewCell(_ cell: FormTableViewCell, didUpdateField updatedModel: EditProfileFormModel) {
-        
+        // Update the corresponding model in `models`
+        for (sectionIndex, section) in models.enumerated() {
+            if let rowIndex = section.firstIndex(where: { $0.label == updatedModel.label }) {
+                models[sectionIndex][rowIndex].value = updatedModel.value
+                break
+            }
+        }
     }
 }
+
+
+
+extension Foundation.Notification.Name {
+    static let bioDidChange = Foundation.Notification.Name("bioDidChange")
+    static let nameDidChange = Foundation.Notification.Name("nameDidChange")
+    static let userDidSwitch = Foundation.Notification.Name("userDidSwitch")
+}
+
+

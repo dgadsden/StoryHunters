@@ -1,10 +1,3 @@
-//
-//  FormTableViewCell.swift
-//  StoryHunters
-//
-//  Created by temp on 11/14/24.
-//
-
 import UIKit
 
 protocol FormTableViewCellDelegate: AnyObject {
@@ -37,31 +30,44 @@ class FormTableViewCell: UITableViewCell, UITextFieldDelegate {
         contentView.addSubview(field)
         field.delegate = self
         selectionStyle = .none
-        
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     public func configure(with model: EditProfileFormModel) {
-//        formLabel.text = model.label
         self.model = model
+
         field.placeholder = model.placeholder
         field.text = model.value
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-//        formLabel.text =  nil
+        formLabel.text = nil
         field.placeholder = nil
-        field.text =  nil
+        field.text = nil
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        formLabel.frame = CGRect(x: 5, y: 5, width: contentView.frame.size.width/3, height: contentView.height)
+    private func setupConstraints() {
+        formLabel.translatesAutoresizingMaskIntoConstraints = false
+        field.translatesAutoresizingMaskIntoConstraints = false
         
-        field.frame = CGRect(x: formLabel.right + 5, y: 0, width: contentView.frame.size.width-10-formLabel.frame.size.width, height: contentView.height)
+        NSLayoutConstraint.activate([
+            // Form Label constraints
+            formLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            formLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            formLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 1/3),
+            formLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            
+            // Field (UITextField) constraints
+            field.leadingAnchor.constraint(equalTo: formLabel.trailingAnchor, constant: 5),
+            field.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            field.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            field.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
+        ])
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -74,4 +80,11 @@ class FormTableViewCell: UITableViewCell, UITextFieldDelegate {
         return true
     }
     
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        model?.value = textField.text
+        guard let model = model else {
+            return
+        }
+        delegate?.formTableViewCell(self, didUpdateField: model)
+    }
 }
