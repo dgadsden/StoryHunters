@@ -15,6 +15,8 @@ class LibraryScreen: UIView {
     var markVisitedButton: UIButton!
     var bookIcon: UIImageView!
     
+    var isSubscribed: Bool = false
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
@@ -54,10 +56,17 @@ class LibraryScreen: UIView {
         addBookButton.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(addBookButton)
     }
+    func updateSubscribeButtonTitle() {
+        if isSubscribed {
+            subscribeButton.setTitle("Unsubscribe from library", for: .normal)
+        } else {
+            subscribeButton.setTitle("Subscribe to library", for: .normal)
+        }
+    }
     func setupSubscribeButton(){
         subscribeButton = UIButton(type: .system)
         subscribeButton.titleLabel?.font = .boldSystemFont(ofSize: 16)
-        subscribeButton.setTitle("Subscribe to library", for: .normal)
+        updateSubscribeButtonTitle()
         subscribeButton.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(subscribeButton)
     }

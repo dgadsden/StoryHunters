@@ -17,6 +17,28 @@ class LibraryScreenViewController: UIViewController {
     var books = [Book]()
     
     override func loadView() {
+        if let userEmail = Auth.auth().currentUser?.email,
+           let libraryTitle = library?.title {
+            let subscribedLibraries = database
+                .collection("users")
+                .document(userEmail)
+                .collection("librariesSubscribed")
+                .document(libraryTitle) // Reference the specific document
+
+            subscribedLibraries.getDocument { (document, error) in
+                if let error = error {
+                    print("Error checking document existence: \(error.localizedDescription)")
+                } else if let document = document, document.exists {
+                    print("Document with ID '\(libraryTitle)' exists!")
+                    self.mainScreen.isSubscribed = true
+                    self.mainScreen.updateSubscribeButtonTitle()
+                } else {
+                    print("Document with ID '\(libraryTitle)' does not exist.")
+                    self.mainScreen.isSubscribed = false
+                    self.mainScreen.updateSubscribeButtonTitle()
+                }
+            }
+        }
         view = mainScreen
     }
     override func viewDidLoad() {
@@ -45,6 +67,7 @@ class LibraryScreenViewController: UIViewController {
             mainScreen.mapView.showsUserLocation = false
             mainScreen.mapView.addAnnotation(library)
         }
+
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(mapTapped))
         mainScreen.mapView.addGestureRecognizer(tapGesture)
@@ -112,18 +135,35 @@ class LibraryScreenViewController: UIViewController {
                                             .collection("librariesSubscribed")
                                             .document(libraryTitle)
                                         let librarySubscribeData = LibraryVisited(libraryName: libraryTitle)
-                                        try subscriber.setData(from: userdb) { error in
-                                            if error == nil{
-                                                self.showAlert(title: "Success", message: "Library added")
-                                            } else {
-                                                self.showAlert(title: "Error", message: "Failed to add library")
+                                        if(!mainScreen.isSubscribed) {
+                                            try subscriber.setData(from: userdb) { error in
+                                                if error == nil{
+                                                    self.showAlert(title: "Success", message: "Library added")
+                                                } else {
+                                                    self.showAlert(title: "Error", message: "Failed to add library")
+                                                }
                                             }
-                                        }
-                                        try subscribedLibrary.setData(from: librarySubscribeData) { error in
-                                            if error == nil{
-                                                print("Success, Library added")
-                                            } else {
-                                                print("Error, Failed to add library")
+                                            try subscribedLibrary.setData(from: librarySubscribeData) { error in
+                                                if error == nil{
+                                                    print("Success, Library added")
+                                                } else {
+                                                    print("Error, Failed to add library")
+                                                }
+                                            }
+                                        } else {
+                                            try subscriber.delete() { error in
+                                                if error == nil{
+                                                    self.showAlert(title: "Success", message: "Library removed")
+                                                } else {
+                                                    self.showAlert(title: "Error", message: "Failed to remove library")
+                                                }
+                                            }
+                                            try subscribedLibrary.delete() { error in
+                                                if error == nil{
+                                                    print("Success, Library removed")
+                                                } else {
+                                                    print("Error, Failed to remove library")
+                                                }
                                             }
                                         }
                                     }
@@ -135,6 +175,9 @@ class LibraryScreenViewController: UIViewController {
                     print("Error adding document!")
                 }
             }
+        mainScreen.isSubscribed = !mainScreen.isSubscribed
+        mainScreen.updateSubscribeButtonTitle()
+        print(mainScreen.isSubscribed)
         }
     
     @objc func onButtonVisitedTapped(){
