@@ -23,7 +23,6 @@ final class ProfileViewController: UIViewController {
         configureNavigationBar()
         setupDelegates()
         loadUserDetails()
-        // loadUserBooksData()
         
         title = "Profile"
         
@@ -36,14 +35,6 @@ final class ProfileViewController: UIViewController {
     
     private func configureNavigationBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .done, target: self, action: #selector(didTapSettingsButton))
-        
-//        // Left back button
-//        navigationItem.leftBarButtonItem = UIBarButtonItem(
-//            image: UIImage(systemName: "chevron.backward"), // Icon for back button
-//            style: .plain,
-//            target: self,
-//            action: #selector(didTapBackButton)
-//        )
         
     }
     
@@ -116,40 +107,3 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 }
-
-/*
- extension ProfileViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
- func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
- 
- return 10
- }
- 
- func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
- let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProfileCell", for: indexPath)
- // Configure the cell (e.g., image, text)
- return cell
- }
- 
- func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
- collectionView.deselectItem(at: indexPath, animated: true)
- // Handle item selection (e.g., navigate to a profile detail screen)
- }
- func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
- guard kind == UICollectionView.elementKindSectionHeader else {
- return UICollectionReusableView()
- }
- 
- 
- let profileHeader = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: ProfileInfoHeaderCollectionReuseableView.identifier, for: indexPath) as! ProfileInfoHeaderCollectionReuseableView
- return profileHeader
- }
- 
- func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
- if section == 0 {
- return CGSize(width: collectionView.frame.size.width, height: collectionView.height/3)
- }
- return .zero
- }
- 
- }
- */

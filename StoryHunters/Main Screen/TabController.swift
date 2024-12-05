@@ -19,9 +19,10 @@ class TabController: UITabBarController {
     func setupTabs() {
         let map = self.createNav(with: "Map", and: UIImage(systemName: "mappin.and.ellipse"), vc: ViewController())
         let profile = self.createNav(with: "Profile", and: UIImage(systemName: "person.circle"), vc: ProfileViewController())
+        let recommend = self.createNav(with: "Recommend", and: UIImage(systemName: "person.2.wave.2"), vc: RecommendViewController())
         let notifications = self.createNav(with: "Notifications", and: UIImage(systemName: "bell.fill"), vc: EditProfileViewController())
         
-        self.setViewControllers([profile, map, notifications], animated: true)
+        self.setViewControllers([profile, map, recommend, notifications], animated: true)
     }
     
     func createNav(with title: String, and image: UIImage?, vc: UIViewController) -> UINavigationController {

@@ -9,4 +9,5 @@ import Foundation
 class Configs{
     public static let placeIdentifier = "placeIdentifier"
     public static let tableViewBooksID = "BookTableViewCell"
+    public static let tableViewRecsID = "RecommendationsTableViewCell"
 }
