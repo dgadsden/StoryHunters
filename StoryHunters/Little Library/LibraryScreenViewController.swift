@@ -316,7 +316,8 @@ class LibraryScreenViewController: UIViewController {
                                 // Create a notification document
                                 let notificationData: [String: Any] = [
                                     "message": "\(book.title) has been taken from \(libraryName)",
-                                    "timestamp": Timestamp()
+                                    "timestamp": Timestamp(),
+                                    "read": false
                                 ]
 
                                 // Add the notification document

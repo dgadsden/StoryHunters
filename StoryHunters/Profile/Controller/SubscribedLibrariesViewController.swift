@@ -16,7 +16,7 @@ class SubscribedLibrariesViewController: UIViewController {
     let database = Firestore.firestore()
     
     var tableView: UITableView!
-    var visitedLibrariesList: [LibraryVisited] = []  // Array to hold Library objects
+    var subscribedLibrariesList: [LibraryVisited] = []  // Array to hold Library objects
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +49,7 @@ class SubscribedLibrariesViewController: UIViewController {
             
             guard let documents = snapshot?.documents else {
                 print("No libraries found for user \(userEmail).")
-                self.visitedLibrariesList = [] // Clear the list if no libraries
+                self.subscribedLibrariesList = [] // Clear the list if no libraries
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
                 }
@@ -57,12 +57,12 @@ class SubscribedLibrariesViewController: UIViewController {
             }
             
             // Decode Firestore documents into LibraryVisited objects
-            self.visitedLibrariesList = documents.compactMap { doc -> LibraryVisited? in
+            self.subscribedLibrariesList = documents.compactMap { doc -> LibraryVisited? in
                 try? doc.data(as: LibraryVisited.self) // Assuming LibraryVisited is a codable model
             }
             
             DispatchQueue.main.async {
-                print("Libraries updated: \(self.visitedLibrariesList.count)")
+                print("Libraries updated: \(self.subscribedLibrariesList.count)")
                 self.tableView.reloadData()
             }
         }
@@ -71,12 +71,12 @@ class SubscribedLibrariesViewController: UIViewController {
 
 extension SubscribedLibrariesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return visitedLibrariesList.count
+        return subscribedLibrariesList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        cell.textLabel?.text = visitedLibrariesList[indexPath.row].libraryName
+        cell.textLabel?.text = subscribedLibrariesList[indexPath.row].libraryName
         
         cell.backgroundColor = .white
         cell.layer.cornerRadius = 6.0
@@ -91,7 +91,7 @@ extension SubscribedLibrariesViewController: UITableViewDelegate, UITableViewDat
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedLibrary = visitedLibrariesList[indexPath.row]
+        let selectedLibrary = subscribedLibrariesList[indexPath.row]
         database.collection("Libraries").getDocuments { querySnapshot, error in
             if let error = error {
                 print("Error fetching documents: \(error)")

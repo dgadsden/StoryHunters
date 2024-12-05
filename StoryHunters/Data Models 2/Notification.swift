@@ -11,4 +11,5 @@ import UIKit
 struct Notification: Codable {
     let message: String
     let timestamp: Date
+    var read: Bool?
 }

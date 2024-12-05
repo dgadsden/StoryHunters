@@ -147,7 +147,8 @@ class AddBookScreenViewController: UIViewController {
                                 // Create a notification document
                                 let notificationData: [String: Any] = [
                                     "message": "New book added to \(libraryName): \(book.title)",
-                                    "timestamp": Timestamp()
+                                    "timestamp": Timestamp(),
+                                    "read": false
                                 ]
 
                                 // Add the notification document
