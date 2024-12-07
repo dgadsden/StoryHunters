@@ -73,7 +73,7 @@ class RegisterController: UIViewController {
     }
     
     private func navigateToMainScreen() {
-        let mainScreenVC = ViewController()
+        let mainScreenVC = TabController()
         let navController = UINavigationController(rootViewController: mainScreenVC)
         
         if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,

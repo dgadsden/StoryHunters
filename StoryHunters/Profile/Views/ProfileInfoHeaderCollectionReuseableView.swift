@@ -16,17 +16,6 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
         return imageView
     }()
 
-    
-    private let editProfileButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Edit Your Profile", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .secondarySystemBackground
-        button.layer.cornerRadius = 10
-        button.layer.masksToBounds = true
-        return button
-    }()
-
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
@@ -68,7 +57,6 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
 
     private func addSubviews() {
         addSubview(profilePhotoImageView)
-        addSubview(editProfileButton)
         addSubview(nameLabel)
         addSubview(bioLabel)
     }
@@ -82,8 +70,6 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
         
         nameLabel.frame = CGRect(x: profilePhotoImageView.right + 10, y: 20, width: frame.size.width - profilePhotoImageView.right - 20, height: 30)
         bioLabel.frame = CGRect(x: profilePhotoImageView.right + 10, y: nameLabel.bottom + 10, width: frame.size.width - profilePhotoImageView.right - 20, height: 60)
-        
-        editProfileButton.frame = CGRect(x: 20, y: profilePhotoImageView.bottom + 10, width: frame.size.width - 40, height: 50)
     }
     
     required init?(coder: NSCoder) {
