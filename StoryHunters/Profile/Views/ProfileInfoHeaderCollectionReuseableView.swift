@@ -1,3 +1,6 @@
+
+
+
 import UIKit
 import FirebaseAuth
 import FirebaseFirestore
@@ -7,10 +10,12 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
     
     private let profilePhotoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .systemBlue
+        
         imageView.layer.masksToBounds = true
+        imageView.image = UIImage(systemName: "person.circle") // Set the default image initially
         return imageView
     }()
+
     
     private let editProfileButton: UIButton = {
         let button = UIButton()
@@ -47,6 +52,9 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
         NotificationCenter.default.addObserver(self, selector: #selector(handleNameUpdate(_:)), name: .nameDidChange, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleBioUpdate(_:)), name: .bioDidChange, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleUserSwitch), name: .userDidSwitch, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleProfilePhotoDidChange(_:)), name: .profilePhotoDidChange, object: nil)
+        
+        
         
         // Load current user data
         if let currentUser = Auth.auth().currentUser {
@@ -54,6 +62,7 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
             loadSavedData()
             listenForNameChanges()
             listenForBioChanges()
+            fetchProfilePhotoFromFirestore()
         }
     }
 
@@ -67,7 +76,7 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        let size = height / 1.5
+        let size = height / 2
         profilePhotoImageView.frame = CGRect(x: 20, y: 20, width: size, height: size)
         profilePhotoImageView.layer.cornerRadius = size / 2
         
@@ -79,6 +88,13 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    
+    @objc private func handleProfilePhotoDidChange(_ notification: Foundation.Notification) {
+        if let userInfo = notification.userInfo, let image = userInfo["profilePhoto"] as? UIImage {
+            profilePhotoImageView.image = image
+        }
     }
 
     @objc private func handleNameUpdate(_ notification: Foundation.Notification) {
@@ -101,10 +117,12 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
             // Clear data on logout
             nameLabel.text = "User not logged in"
             bioLabel.text = ""
+            profilePhotoImageView.image = UIImage(systemName: "person.circle") // Reset to default image
             UserDefaults.standard.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
             UserDefaults.standard.synchronize()
         }
     }
+
 
     // MARK: - Data Loading and Updates
     private func loadSavedData() {
@@ -124,7 +142,39 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
         } else {
             fetchBioFromFirestore()
         }
+        
+        // Load profile photo
+        if let imageData = UserDefaults.standard.data(forKey: "\(userEmail)_profilePhoto"), let savedImage = UIImage(data: imageData) {
+            profilePhotoImageView.image = savedImage
+        } else {
+            fetchProfilePhotoFromFirestore()
+        }
     }
+    private func fetchProfilePhotoFromFirestore() {
+        guard let currentUser = Auth.auth().currentUser else { return }
+        let userEmail = currentUser.email ?? "defaultEmail"
+
+        let db = Firestore.firestore()
+        let userRef = db.collection("users").document(userEmail)
+
+        userRef.getDocument { [weak self] (document, error) in
+            if let error = error {
+                print("Error fetching user profile photo: \(error)")
+            } else if let document = document, document.exists {
+                if let base64Photo = document.data()?["profilePhoto"] as? String {
+                    if let photoData = Data(base64Encoded: base64Photo),
+                       let photo = UIImage(data: photoData) {
+                        // Save to UserDefaults
+                        UserDefaults.standard.set(base64Photo, forKey: "profilePhotoBase64")
+                        // Update UI with the fetched photo
+                        self?.profilePhotoImageView.image = photo
+                    }
+                }
+            }
+        }
+    }
+
+
 
     private func fetchNameFromFirestore() {
         guard let currentUser = Auth.auth().currentUser else { return }
@@ -222,5 +272,8 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
 
     deinit {
         NotificationCenter.default.removeObserver(self)
+        NotificationCenter.default.removeObserver(self, name: .profilePhotoDidChange, object: nil)
     }
 }
+
+

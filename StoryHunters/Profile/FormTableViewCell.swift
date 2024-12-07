@@ -70,6 +70,20 @@ class FormTableViewCell: UITableViewCell, UITextFieldDelegate {
         ])
     }
     
+    // UITextFieldDelegate method to track text changes as the user types
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        // Update the model with the new text while typing
+        model?.value = textField.text
+        guard let model = model else {
+            return true
+        }
+        // Notify the delegate immediately while typing
+        delegate?.formTableViewCell(self, didUpdateField: model)
+        
+        return true
+    }
+
+    // Keep existing methods for when text editing ends or when the return key is pressed
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         model?.value = textField.text
         guard let model = model else {
@@ -79,7 +93,7 @@ class FormTableViewCell: UITableViewCell, UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
-    
+
     func textFieldDidEndEditing(_ textField: UITextField) {
         model?.value = textField.text
         guard let model = model else {
@@ -87,4 +101,5 @@ class FormTableViewCell: UITableViewCell, UITextFieldDelegate {
         }
         delegate?.formTableViewCell(self, didUpdateField: model)
     }
+
 }

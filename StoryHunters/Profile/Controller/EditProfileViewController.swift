@@ -1,3 +1,6 @@
+
+
+
 import UIKit
 import FirebaseFirestore
 import FirebaseAuth
@@ -24,6 +27,12 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
         configureModels()
         customView.tableView.dataSource = self
         
+        // Load profile photo if available
+        if let user = Auth.auth().currentUser {
+                // Attempt to load the profile photo from Firestore
+                loadProfilePhoto(for: user)
+            }
+         
         // Add Navigation Bar Buttons
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didTapSave))
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancel))
@@ -32,10 +41,33 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
         customView.profilePhotoButton.addTarget(self, action: #selector(didTapProfilePhotoButton), for: .touchUpInside)
     }
 
+    private func loadProfilePhoto(for user: FirebaseAuth.User) {
+        let db = Firestore.firestore()
+        let userRef = db.collection("users").document(user.email ?? "")
+        
+        userRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                // Check if profile photo is available
+                if let profilePhotoBase64 = document.data()?["profilePhoto"] as? String {
+                    // Convert Base64 string to image
+                    if let photoData = Data(base64Encoded: profilePhotoBase64),
+                       let photo = UIImage(data: photoData) {
+                        self.customView.profilePhotoButton.setBackgroundImage(photo, for: .normal)
+                    }
+                } else {
+                    // No profile photo, set default image (person.circle)
+                    self.customView.profilePhotoButton.setBackgroundImage(UIImage(systemName: "person.circle"), for: .normal)
+                }
+            } else {
+                // No user document found, set default image
+                self.customView.profilePhotoButton.setBackgroundImage(UIImage(systemName: "person.circle"), for: .normal)
+            }
+        }
+    }
 
     
     private func configureModels() {
-        let section1Labels = ["Name", "Username", "Bio"]
+        let section1Labels = ["Name", "Bio"]
         var section1 = [EditProfileFormModel]()
         for label in section1Labels {
             let model = EditProfileFormModel(label: label, placeholder: "Enter \(label)", value: nil)
@@ -82,18 +114,19 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
         return "Private Information"
     }
     
-    // Called when the user picks an image
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        // Retrieve the edited image (if available)
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let image = info[.editedImage] as? UIImage {
             customView.profilePhotoButton.setBackgroundImage(image, for: .normal)
+            NotificationCenter.default.post(name: .profilePhotoDidChange, object: nil, userInfo: ["profilePhoto": image])
         } else if let image = info[.originalImage] as? UIImage {
             customView.profilePhotoButton.setBackgroundImage(image, for: .normal)
+            NotificationCenter.default.post(name: .profilePhotoDidChange, object: nil, userInfo: ["profilePhoto": image])
         }
         
-        // Dismiss the picker
         dismiss(animated: true, completion: nil)
     }
+
+
     
     // Called when the user cancels the picker
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -121,11 +154,11 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
             showAlert(message: "No logged-in user found!")
             return
         }
-        
+
         var updatedData: [String: Any] = [:]
         var updatedBio: String?
         var updatedName: String?
-        
+
         for section in models {
             for model in section {
                 if let value = model.value, !value.isEmpty {
@@ -138,30 +171,37 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
                 }
             }
         }
+
+        // Get the profile photo from the button and convert it to Base64 string
+        if let profilePhoto = customView.profilePhotoButton.backgroundImage(for: .normal),
+           let imageData = profilePhoto.jpegData(compressionQuality: 0.8) {
+            let profilePhotoBase64 = imageData.base64EncodedString()
+            updatedData["profilePhoto"] = profilePhotoBase64
+        }
+
         if let updatedName = models[0][0].value, !updatedName.isEmpty {
-                UserDefaults.standard.set(updatedName, forKey: "name")
-                NotificationCenter.default.post(name: .nameDidChange, object: nil, userInfo: ["name": updatedName])
-            }
-            
-            if let updatedBio = models[0][2].value, !updatedBio.isEmpty {
-                UserDefaults.standard.set(updatedBio, forKey: "bio")
-                NotificationCenter.default.post(name: .bioDidChange, object: nil, userInfo: ["bio": updatedBio])
-            }
+            UserDefaults.standard.set(updatedName, forKey: "name")
+            NotificationCenter.default.post(name: .nameDidChange, object: nil, userInfo: ["name": updatedName])
+        }
+
+        if let updatedBio = models[0][1].value, !updatedBio.isEmpty {
+            UserDefaults.standard.set(updatedBio, forKey: "bio")
+            NotificationCenter.default.post(name: .bioDidChange, object: nil, userInfo: ["bio": updatedBio])
+        }
+
         guard let oldEmail = user.email else {
             showAlert(message: "Current email not available.")
             return
         }
-        
+
         if let bio = updatedBio, let name = updatedName {
             NotificationCenter.default.post(name: .bioDidChange, object: nil, userInfo: ["bio": bio, "name": name])
         }
-        
-        // Continue updating Firestore or handling email changes
+
+        // Continue updating Firestore with profile photo included
         updateFirestoreUserData(email: oldEmail, oldEmail: oldEmail, updatedData: updatedData)
-        
         dismiss(animated: true)
     }
-
 
     private func updateFirestoreUserData(email: String, oldEmail: String, updatedData: [String: Any]) {
         let db = Firestore.firestore()
@@ -217,7 +257,7 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
 
 extension EditProfileViewController: FormTableViewCellDelegate {
     func formTableViewCell(_ cell: FormTableViewCell, didUpdateField updatedModel: EditProfileFormModel) {
-        // Update the corresponding model in `models`
+        // Update the corresponding model in models
         for (sectionIndex, section) in models.enumerated() {
             if let rowIndex = section.firstIndex(where: { $0.label == updatedModel.label }) {
                 models[sectionIndex][rowIndex].value = updatedModel.value
@@ -233,6 +273,5 @@ extension Foundation.Notification.Name {
     static let bioDidChange = Foundation.Notification.Name("bioDidChange")
     static let nameDidChange = Foundation.Notification.Name("nameDidChange")
     static let userDidSwitch = Foundation.Notification.Name("userDidSwitch")
+    static let profilePhotoDidChange = Foundation.Notification.Name("profilePhotoDidChange")
 }
-
-
