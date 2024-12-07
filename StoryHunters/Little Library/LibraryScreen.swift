@@ -45,7 +45,7 @@ class LibraryScreen: UIView {
     }
     func setupTableViewBooks(){
         tableViewBooks = UITableView()
-        tableViewBooks.register(BooksTableViewCell.self, forCellReuseIdentifier: "books")
+        tableViewBooks.register(BookTableViewCell.self, forCellReuseIdentifier: "books")
         tableViewBooks.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(tableViewBooks)
     }
