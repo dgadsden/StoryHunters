@@ -348,9 +348,10 @@ extension LibraryScreenViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "books", for: indexPath) as! BooksTableViewCell
-        cell.labelTitle.text = books[indexPath.row].title
+        let cell = tableView.dequeueReusableCell(withIdentifier: "books", for: indexPath) as! BookTableViewCell
+        cell.labelName.text = books[indexPath.row].title
         cell.labelAuthor.text = books[indexPath.row].author
+        cell.labelRating.text = String(format: "%.1f", books[indexPath.row].rating ?? 0.0)
         
         //MARK: crating an accessory button...
         let buttonOptions = UIButton(type: .system)
