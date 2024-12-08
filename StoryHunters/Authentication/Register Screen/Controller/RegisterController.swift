@@ -17,6 +17,7 @@ class RegisterController: UIViewController {
     let childProgressView = ProgressSpinnerViewController()
     // Image to Firestore
     let storage = Storage.storage()
+    let database = Firestore.firestore()
     var pickedImage:UIImage?
     
     override func loadView() {
@@ -155,5 +156,4 @@ class RegisterController: UIViewController {
         
         self.present(alert, animated: true)
     }
-    
 }

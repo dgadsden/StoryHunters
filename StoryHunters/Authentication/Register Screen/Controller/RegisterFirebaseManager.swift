@@ -82,20 +82,50 @@ extension RegisterController{
                 self.showErrorAlert(alert: "Error creating account: \(error.localizedDescription)")
                 return
             }
-            
-            let changeRequest = authResult?.user.createProfileChangeRequest()
-            changeRequest?.displayName = name
-            changeRequest?.photoURL = photoURL
-            changeRequest?.commitChanges { [weak self] error in
+
+            guard let firebaseUser = authResult?.user else { return }
+
+            let changeRequest = firebaseUser.createProfileChangeRequest()
+            changeRequest.displayName = name
+            changeRequest.photoURL = photoURL
+            changeRequest.commitChanges { [weak self] error in
                 guard let self = self else { return }
                 if let error = error {
                     self.showErrorAlert(alert: "Error updating profile: \(error.localizedDescription)")
-                } else {
-                    self.navigateToMainScreen()
+                    return
                 }
+
+                // Save user to Firestore
+                let user = User(name: name,
+                                email: email.lowercased(),
+                                profilePhoto: photoURL?.absoluteString)
+                self.saveUserToFirestore(user: user)
             }
         }
     }
+
+    // Save User to Firestore
+    func saveUserToFirestore(user: User) {
+        let userRef = database.collection("users").document(user.email.lowercased())
+        
+        do {
+            try userRef.setData(from: user) { error in
+                self.hideActivityIndicator()
+                if let error = error {
+                    print("Error saving user to Firestore: \(error.localizedDescription)")
+                    self.showErrorAlert(alert: "Error saving user data: \(error.localizedDescription)")
+                } else {
+                    print("User successfully saved to Firestore")
+                    self.navigateToMainScreen()
+                }
+            }
+        } catch {
+            self.hideActivityIndicator()
+            print("Error encoding user: \(error.localizedDescription)")
+            self.showErrorAlert(alert: "Error encoding user data: \(error.localizedDescription)")
+        }
+    }
+    
     
     /*
     func registerUser(photoURL: URL?){

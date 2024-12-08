@@ -54,23 +54,48 @@ class CreateRecommendationViewController: UIViewController {
     func fetchUsers() {
         database.collection("users").getDocuments { [weak self] (querySnapshot, error) in
             guard let self = self else { return }
+            
             if let error = error {
-                print("Error fetching users: \(error)")
+                print("Error fetching users: \(error.localizedDescription)")
                 return
             }
-            self.users = querySnapshot?.documents.compactMap { document -> User? in
+            
+            guard let documents = querySnapshot?.documents else {
+                print("No documents found in the users collection.")
+                return
+            }
+            
+            print("Fetched \(documents.count) users from Firestore.") // Debug print
+            
+            self.users = documents.compactMap { document -> User? in
                 let data = document.data()
+                
                 guard let name = data["name"] as? String,
                       let email = data["email"] as? String,
-                      email != self.currentUser?.email else { return nil }
-                return User(name: name, email: email)
-            } ?? []
+                      email != self.currentUser?.email else {
+                          print("Skipping user with data: \(data)") // Debug print
+                          return nil
+                      }
+                
+                // Extract optional fields
+                let bio = data["bio"] as? String
+                let profilePhoto = data["profilePhoto"] as? String
+                let phone = data["phone"] as? String
+                let gender = data["gender"] as? String
+                
+                print("User fetched: Name: \(name), Email: \(email), Bio: \(bio ?? "None"), ProfilePhoto: \(profilePhoto ?? "None"), Phone: \(phone ?? "None"), Gender: \(gender ?? "None")") // Debug print
+                
+                return User(name: name, email: email, bio: bio, profilePhoto: profilePhoto, phone: phone, gender: gender)
+            }
+            
+            print("All users after filtering: \(self.users.map { "\($0.name) (\($0.email))" })") // Debug print
             
             DispatchQueue.main.async {
                 self.createRecommendationView.friendsPicker.reloadAllComponents()
             }
         }
     }
+
     
     func fetchCurrentUserBooks() {
         guard let userEmail = Auth.auth().currentUser?.email else {
@@ -79,10 +104,10 @@ class CreateRecommendationViewController: UIViewController {
         }
         
         let userBooksCollection = database.collection("users").document(userEmail).collection("booksTaken")
-        userBooksCollection.getDocuments { [weak self] (querySnapshot, error) in
+        userBooksCollection.addSnapshotListener { [weak self] (querySnapshot, error) in
             guard let self = self else { return }
             if let error = error {
-                print("Error fetching user's books: \(error.localizedDescription)")
+                print("Error listening for book updates: \(error.localizedDescription)")
                 return
             }
             guard let documents = querySnapshot?.documents else {
@@ -98,15 +123,16 @@ class CreateRecommendationViewController: UIViewController {
                     print("Missing or invalid book data in document: \(document.data())")
                     return nil
                 }
-                return Book(id: document.documentID, title: title, author: author, rating: rating, numReaders: numReaders) // Use documentID
+                return Book(id: document.documentID, title: title, author: author, rating: rating, numReaders: numReaders)
             }
             
-            print("Books fetched: \(self.books)") // Debug print
+            print("Real-time books fetched: \(self.books)") // Debug print
             DispatchQueue.main.async {
                 self.createRecommendationView.booksPicker.reloadAllComponents()
             }
         }
     }
+
     
     func createNewRecommendation() {
         guard let selectedBook = selectedBook,
