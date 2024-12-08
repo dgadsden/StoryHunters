@@ -31,13 +31,11 @@ class TabController: UITabBarController, UITabBarControllerDelegate {
     }
     
     func setupTabs() {
-        
+        let recommend = self.createNav(with: "Recommendations", and: UIImage(systemName: "person.3"), vc: RecommendViewController())
         let map = self.createNav(with: "Map", and: UIImage(systemName: "mappin.and.ellipse"), vc: ViewController())
-        let profile = self.createNav(with: "Profile", and: UIImage(systemName: "person.circle"), vc: ProfileViewController())
-        let recommend = self.createNav(with: "Recommend", and: UIImage(systemName: "person.2.wave.2"), vc: RecommendViewController())
-        let notifications = self.createNav(with: "Notifications", and: UIImage(systemName: "bell.fill"), vc: NotificationsController())
+        let notifications = self.createNav(with: "Notifications", and: UIImage(systemName: "bell"), vc: NotificationsController())
         
-        self.setViewControllers([profile, map, recommend, notifications], animated: true)
+        self.setViewControllers([recommend, map, notifications], animated: true)
     }
     
     func createNav(with title: String, and image: UIImage?, vc: UIViewController) -> UINavigationController {
@@ -77,7 +75,7 @@ class TabController: UITabBarController, UITabBarControllerDelegate {
                 
                 // Update the badge on the Notifications tab
                 DispatchQueue.main.async {
-                    let notificationsTab = self.tabBar.items?[2] // Assuming Notifications is the 3rd tab
+                    let notificationsTab = self.tabBar.items?[2] // Notifications is now the 3rd tab
                     notificationsTab?.badgeValue = incomingCount > 0 ? "\(incomingCount)" : nil
                 }
             }
@@ -111,7 +109,7 @@ class TabController: UITabBarController, UITabBarControllerDelegate {
                 
                 // Update the badge on the Notifications tab
                 DispatchQueue.main.async {
-                    let notificationsTab = self.tabBar.items?[3] // Assuming Notifications is the 4th tab
+                    let notificationsTab = self.tabBar.items?[2] // Notifications is now the 3rd tab
                     notificationsTab?.badgeValue = count > 0 ? "\(count)" : nil
                 }
             }
@@ -178,7 +176,7 @@ class TabController: UITabBarController, UITabBarControllerDelegate {
             
             // Reset the badge after marking notifications as read
             DispatchQueue.main.async {
-                let notificationsTab = self.tabBar.items?[3] // Assuming Notifications is the 4th tab
+                let notificationsTab = self.tabBar.items?[2] // Notifications is now the 3rd tab
                 notificationsTab?.badgeValue = nil
             }
         }

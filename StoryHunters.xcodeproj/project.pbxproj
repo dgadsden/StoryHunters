@@ -45,6 +45,7 @@
 		27F75B2E2D02560700ABBE1C /* CreateRecommendationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F75B262D02560700ABBE1C /* CreateRecommendationViewController.swift */; };
 		27F75B2F2D02560700ABBE1C /* CreateRecommendationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F75B252D02560700ABBE1C /* CreateRecommendationView.swift */; };
 		36219A2C2CFFC2E300E389EF /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36219A2B2CFFC2E300E389EF /* Notification.swift */; };
+		368EBC3C2D0527F4001FF62E /* ImageViewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368EBC3B2D0527F4001FF62E /* ImageViewUtils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,6 +105,7 @@
 		27F75B282D02560700ABBE1C /* RecommendView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendView.swift; sourceTree = "<group>"; };
 		27F75B292D02560700ABBE1C /* RecommendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecommendViewController.swift; sourceTree = "<group>"; };
 		36219A2B2CFFC2E300E389EF /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		368EBC3B2D0527F4001FF62E /* ImageViewUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewUtils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -254,6 +256,7 @@
 				27DFB25A2CDD50CA00C403B5 /* SceneDelegate.swift */,
 				144B1E502CF6C9A70027F022 /* Data Models 2 */,
 				36219A242CFFC27500E389EF /* Notifications */,
+				368EBC3B2D0527F4001FF62E /* ImageViewUtils.swift */,
 			);
 			path = StoryHunters;
 			sourceTree = "<group>";
@@ -429,6 +432,7 @@
 				27F75B2E2D02560700ABBE1C /* CreateRecommendationViewController.swift in Sources */,
 				27F75B2F2D02560700ABBE1C /* CreateRecommendationView.swift in Sources */,
 				27DFB2612CDD50CA00C403B5 /* LocationManager.swift in Sources */,
+				368EBC3C2D0527F4001FF62E /* ImageViewUtils.swift in Sources */,
 				27F75B242D02558D00ABBE1C /* Recommendation.swift in Sources */,
 				27DFB2622CDD50CA00C403B5 /* AddBookScreenViewController.swift in Sources */,
 				27DFB2632CDD50CA00C403B5 /* SceneDelegate.swift in Sources */,

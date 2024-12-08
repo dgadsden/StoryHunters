@@ -10,6 +10,31 @@ import FirebaseAuth
 
 extension RegisterController{
     
+    func uploadProfilePhotoToStorage() {
+        if let image = pickedImage, let jpegData = image.jpegData(compressionQuality: 0.8) {
+            let storageRef = storage.reference().child("profileImages/\(Auth.auth().currentUser?.uid ?? UUID().uuidString).jpg")
+            storageRef.putData(jpegData, metadata: nil) { metadata, error in
+                if let error = error {
+                    self.hideActivityIndicator()
+                    self.showErrorAlert(alert: "Error uploading photo: \(error.localizedDescription)")
+                    return
+                }
+                
+                storageRef.downloadURL { url, error in
+                    if let downloadURL = url {
+                        self.registerUser(photoURL: downloadURL)
+                    } else {
+                        self.hideActivityIndicator()
+                        self.showErrorAlert(alert: "Error getting download URL")
+                    }
+                }
+            }
+        } else {
+            registerUser(photoURL: nil)
+        }
+    }
+    
+    /*
     func uploadProfilePhotoToStorage(){
         var profilePhotoURL:URL?
         
@@ -38,7 +63,41 @@ extension RegisterController{
             registerUser(photoURL: profilePhotoURL)
         }
     }
+    */
     
+    func registerUser(photoURL: URL?) {
+        guard let email = registerView.emailTextField.text,
+              let password = registerView.passwordTextField1.text,
+              let name = registerView.nameTextField.text else {
+            hideActivityIndicator()
+            showErrorAlert(alert: "Missing registration information")
+            return
+        }
+
+        Auth.auth().createUser(withEmail: email, password: password) { [weak self] authResult, error in
+            guard let self = self else { return }
+            self.hideActivityIndicator()
+            
+            if let error = error {
+                self.showErrorAlert(alert: "Error creating account: \(error.localizedDescription)")
+                return
+            }
+            
+            let changeRequest = authResult?.user.createProfileChangeRequest()
+            changeRequest?.displayName = name
+            changeRequest?.photoURL = photoURL
+            changeRequest?.commitChanges { [weak self] error in
+                guard let self = self else { return }
+                if let error = error {
+                    self.showErrorAlert(alert: "Error updating profile: \(error.localizedDescription)")
+                } else {
+                    self.navigateToMainScreen()
+                }
+            }
+        }
+    }
+    
+    /*
     func registerUser(photoURL: URL?){
         if let name = registerView.nameTextField.text,
            let email = registerView.emailTextField.text,
@@ -73,4 +132,5 @@ extension RegisterController{
             }
         })
     }
+     */
 }

@@ -94,6 +94,21 @@ class ViewController: UIViewController {
     }
     
     func setupRightBarButton() {
+        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 36, height: 36))
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 18
+        imageView.clipsToBounds = true
+        imageView.image = UIImage(systemName: "person.crop.circle")
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onProfileBarButtonTapped))
+        imageView.addGestureRecognizer(tapGesture)
+        imageView.isUserInteractionEnabled = true
+        
+        let barButton = UIBarButtonItem(customView: imageView)
+        navigationItem.rightBarButtonItem = barButton
+    }
+    /*
+    func setupRightBarButton() {
         let barIcon = UIBarButtonItem(
             image: UIImage(systemName: "person.crop.circle"),
             style: .plain,
@@ -102,6 +117,7 @@ class ViewController: UIViewController {
         )
         navigationItem.rightBarButtonItem = barIcon
     }
+    */
     
     func navigateToLoginScreen() {
         let loginVC = LoginController() // Use the new LoginController
@@ -110,9 +126,24 @@ class ViewController: UIViewController {
     }
     
     func loadUserData() {
-        guard let user = currentUser else { return }
-        print("User is signed in: \(user.email ?? "Unknown Email")")
-        // Fetch user-specific data from Firestore or other backend services
+        if let user = currentUser {
+            print("User is signed in: \(user.email ?? "Unknown Email")")
+            
+            if let photoURL = user.photoURL {
+                URLSession.shared.dataTask(with: photoURL) { [weak self] data, _, error in
+                    if let self = self, let data = data, error == nil {
+                        DispatchQueue.main.async {
+                            if let image = UIImage(data: data) {
+                                let resizedImage = image.resized(to: CGSize(width: 36, height: 36))
+                                if let imageView = self.navigationItem.rightBarButtonItem?.customView as? UIImageView {
+                                    imageView.image = resizedImage
+                                }
+                            }
+                        }
+                    }
+                }.resume()
+            }
+        }
     }
 }
 
@@ -124,5 +155,13 @@ extension MKMapView {
             latitudinalMeters: regionRadius,
             longitudinalMeters: regionRadius)
         setRegion(coordinateRegion, animated: true)
+    }
+}
+
+extension UIImage {
+    func resized(to size: CGSize) -> UIImage {
+        return UIGraphicsImageRenderer(size: size).image { _ in
+            draw(in: CGRect(origin: .zero, size: size))
+        }
     }
 }

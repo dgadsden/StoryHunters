@@ -22,7 +22,7 @@ class MapView: UIView {
     func setupMapView(){
         mapView = MKMapView()
         mapView.translatesAutoresizingMaskIntoConstraints = false
-        mapView.layer.cornerRadius = 10
+        //mapView.layer.cornerRadius = 10
         self.addSubview(mapView)
     }
     
@@ -41,7 +41,20 @@ class MapView: UIView {
         
         self.addSubview(buttonCurrentLocation)
     }
-    
+    func initConstraints(){
+        NSLayoutConstraint.activate([
+            mapView.topAnchor.constraint(equalTo: self.topAnchor),
+            mapView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            mapView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            buttonCurrentLocation.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            buttonCurrentLocation.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -16),
+            buttonCurrentLocation.heightAnchor.constraint(equalToConstant: 36),
+            buttonCurrentLocation.widthAnchor.constraint(equalToConstant: 36)
+        ])
+    }
+    /*
     func initConstraints(){
         NSLayoutConstraint.activate([
             mapView.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
@@ -55,7 +68,7 @@ class MapView: UIView {
             buttonCurrentLocation.widthAnchor.constraint(equalToConstant: 36)
         ])
     }
-    
+    */
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

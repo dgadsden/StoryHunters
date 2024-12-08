@@ -9,6 +9,7 @@ import FirebaseFirestore
 import FirebaseStorage
 import UIKit
 import PhotosUI
+import FirebaseAuth
 
 class RegisterController: UIViewController {
 
@@ -23,7 +24,7 @@ class RegisterController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.prefersLargeTitles = true
+        //navigationController?.navigationBar.prefersLargeTitles = true
         registerView.registerButton.addTarget(self, action: #selector(onRegisterTapped), for: .touchUpInside)
         registerView.loginButton.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         title = "Register"
@@ -57,22 +58,29 @@ class RegisterController: UIViewController {
 
         // Check if email already exists in Firestore
         let db = Firestore.firestore()
-        db.collection("users").whereField("email", isEqualTo: email).getDocuments { (querySnapshot, err) in
-            if let err = err {
-                self.showErrorAlert(alert: "Error checking email: \(err.localizedDescription)")
-            }
-            if querySnapshot!.documents.count > 0 {
-                self.showErrorAlert(alert: "Email already exists.")
-            } else {
-                // Email is unique, proceed with registration
-                self.showActivityIndicator()
-                self.uploadProfilePhotoToStorage()
-                self.navigateToMainScreen()
+        db.collection("users").whereField("email", isEqualTo: email).getDocuments { [weak self] (querySnapshot, err) in
+            if let self = self {
+                if let err = err {
+                    self.showErrorAlert(alert: "Error checking email: \(err.localizedDescription)")
+                    return
+                }
+                
+                if let querySnapshot = querySnapshot {
+                    if querySnapshot.documents.count > 0 {
+                        self.showErrorAlert(alert: "Email already exists.")
+                    } else {
+                        // Email is unique, proceed with registration
+                        self.showActivityIndicator()
+                        self.uploadProfilePhotoToStorage()
+                    }
+                } else {
+                    self.showErrorAlert(alert: "Error checking email: No data received")
+                }
             }
         }
     }
     
-    private func navigateToMainScreen() {
+    func navigateToMainScreen() {
         let mainScreenVC = TabController()
         let navController = UINavigationController(rootViewController: mainScreenVC)
         
