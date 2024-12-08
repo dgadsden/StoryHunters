@@ -43,7 +43,7 @@ class LibraryScreenViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         if let library = library {
             title = library.title
         }

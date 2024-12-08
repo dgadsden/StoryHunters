@@ -38,8 +38,8 @@ class AddBookScreenViewController: UIViewController {
             let titleAndAuthor = [title, author]
             let titleAuthorString = titleAndAuthor.joined()
             let bookID = titleAuthorString.lowercased()
-            let book = Book(id: bookID, title: title, author: author, rating: Double(rating)!)
-            self.saveBookToFirestore(book: book)
+            let book = Book(id: bookID, title: title, author: author, rating: Double(rating)!, numReaders: 0)
+            self.saveBookToFirestore(book: book, newRating: Double(rating)!)
         }
     }
     
@@ -49,7 +49,7 @@ class AddBookScreenViewController: UIViewController {
         navigationController?.pushViewController(addCurrentBookCustomViewController, animated: true)
     }
     
-    func saveBookToFirestore(book: Book) {
+    func saveBookToFirestore(book: Book, newRating: Double) {
         if let library = library {
             if let bookID = book.id {
                 if let libraryID = library.id {
@@ -58,11 +58,14 @@ class AddBookScreenViewController: UIViewController {
                         .document(libraryID)
                         .collection("books")
                         .document(bookID)
+                    let newNumReaders = book.numReaders + 1
+                    let newRating = ((book.rating * Double(book.numReaders)) + newRating) / Double(newNumReaders)
+                    let newBook = Book(id: bookID, title: book.title, author: book.author, rating: newRating, numReaders: newNumReaders)
                     do{
-                        try collectionBooks.setData(from: book) { error in
+                        try collectionBooks.setData(from: newBook) { error in
                             if error == nil{
-                                self.addBookToUser(book: book)
-                                self.notifyUsers(book: book)
+                                self.addBookToUser(book: newBook)
+                                self.notifyUsers(book: newBook)
                                 self.navigationController?.popViewController(animated: true)
                             }
                         }

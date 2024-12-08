@@ -93,11 +93,12 @@ class CreateRecommendationViewController: UIViewController {
                 let data = document.data()
                 guard let title = data["title"] as? String,
                       let author = data["author"] as? String,
-                      let rating = data["rating"] as? Double else {
+                      let rating = data["rating"] as? Double,
+                      let numReaders = data["numReaders"] as? Int else {
                     print("Missing or invalid book data in document: \(document.data())")
                     return nil
                 }
-                return Book(id: document.documentID, title: title, author: author, rating: rating) // Use documentID
+                return Book(id: document.documentID, title: title, author: author, rating: rating, numReaders: numReaders) // Use documentID
             }
             
             print("Books fetched: \(self.books)") // Debug print
