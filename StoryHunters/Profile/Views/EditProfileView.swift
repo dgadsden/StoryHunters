@@ -3,8 +3,8 @@ import UIKit
 class EditProfileView: UIView {
     
     // UI Components
-    let tableView: UITableView
-    let profilePhotoButton: UIButton
+    let tableView: UITableView!
+    var profilePhotoButton: UIButton!
     
     // Initializer
     override init(frame: CGRect) {
@@ -30,9 +30,12 @@ class EditProfileView: UIView {
     
     // Profile Photo button setup
     private func configureProfilePhotoButton() {
-    
+        profilePhotoButton = UIButton(type: .system)
         profilePhotoButton.layer.masksToBounds = true
-   
+        profilePhotoButton.contentHorizontalAlignment = .fill
+        profilePhotoButton.contentVerticalAlignment = .fill
+        profilePhotoButton.imageView?.contentMode = .scaleAspectFit
+        profilePhotoButton.showsMenuAsPrimaryAction = true
         profilePhotoButton.layer.borderColor = UIColor.secondarySystemBackground.cgColor
         profilePhotoButton.setBackgroundImage(UIImage(systemName: "person.circle"), for: .normal)
         profilePhotoButton.translatesAutoresizingMaskIntoConstraints = false

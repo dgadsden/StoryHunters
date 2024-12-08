@@ -3,7 +3,9 @@
 
 import UIKit
 import FirebaseFirestore
+import FirebaseStorage
 import FirebaseAuth
+import PhotosUI
 
 struct EditProfileFormModel {
     let label: String
@@ -11,14 +13,19 @@ struct EditProfileFormModel {
     var value: String?
 }
 
-class EditProfileViewController: UIViewController, UINavigationControllerDelegate, UITableViewDataSource, UIImagePickerControllerDelegate {
+class EditProfileViewController: UIViewController, UINavigationControllerDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, PHPickerViewControllerDelegate {
     
     // View
     private var customView: EditProfileView!
     
     // Data
+    let childProgressView = ProgressSpinnerViewController()
     private var models = [[EditProfileFormModel]]()
-
+    let storage = Storage.storage()
+    let database = Firestore.firestore()
+    var pickedImage:UIImage?
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         customView = EditProfileView(frame: view.bounds)
@@ -29,42 +36,43 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
         
         // Load profile photo if available
         if let user = Auth.auth().currentUser {
-                // Attempt to load the profile photo from Firestore
-                loadProfilePhoto(for: user)
-            }
-         
+            // Attempt to load the profile photo from Firestore
+            loadProfilePhoto(for: user)
+        }
+        
         // Add Navigation Bar Buttons
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didTapSave))
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(didTapCancel))
         
         // Profile photo button action
-        customView.profilePhotoButton.addTarget(self, action: #selector(didTapProfilePhotoButton), for: .touchUpInside)
-    }
-
-    private func loadProfilePhoto(for user: FirebaseAuth.User) {
-        let db = Firestore.firestore()
-        let userRef = db.collection("users").document(user.email ?? "")
+        //        customView.profilePhotoButton.addTarget(self, action: #selector(didTapProfilePhotoButton), for: .touchUpInside)
+        customView.profilePhotoButton.menu = getMenuImagePicker()
         
-        userRef.getDocument { (document, error) in
-            if let document = document, document.exists {
-                // Check if profile photo is available
-                if let profilePhotoBase64 = document.data()?["profilePhoto"] as? String {
-                    // Convert Base64 string to image
-                    if let photoData = Data(base64Encoded: profilePhotoBase64),
-                       let photo = UIImage(data: photoData) {
-                        self.customView.profilePhotoButton.setBackgroundImage(photo, for: .normal)
-                    }
-                } else {
-                    // No profile photo, set default image (person.circle)
-                    self.customView.profilePhotoButton.setBackgroundImage(UIImage(systemName: "person.circle"), for: .normal)
-                }
-            } else {
-                // No user document found, set default image
-                self.customView.profilePhotoButton.setBackgroundImage(UIImage(systemName: "person.circle"), for: .normal)
-            }
-        }
     }
-
+    
+    private func loadProfilePhoto(for user: FirebaseAuth.User) {
+        
+        guard let currentUser = Auth.auth().currentUser,
+              let photoURL = currentUser.photoURL else {
+            // Default image if no photoURL is set
+            self.customView.profilePhotoButton.setBackgroundImage(UIImage(systemName: "person.circle"), for: .normal)
+            return
+        }
+        
+        // Download the image from the URL
+        URLSession.shared.dataTask(with: photoURL) { [weak self] data, response, error in
+            guard let self = self, error == nil, let data = data, let image = UIImage(data: data) else {
+                print("Error fetching profile photo: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            // Update UI on the main thread
+            DispatchQueue.main.async {
+                self.customView.profilePhotoButton.setBackgroundImage(image, for: .normal)
+            }
+        }.resume()
+    }
+    
     
     private func configureModels() {
         let section1Labels = ["Name", "Bio"]
@@ -114,6 +122,41 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
         return "Private Information"
     }
     
+    private func getMenuImagePicker() -> UIMenu{
+        let menuItems = [
+            UIAction(title: "Camera",handler: {(_) in
+                self.pickUsingCamera()
+            }),
+            UIAction(title: "Gallery",handler: {(_) in
+                self.pickPhotoFromGallery()
+            })
+        ]
+        
+        return UIMenu(title: "Select source", children: menuItems)
+    }
+    
+    //MARK: take Photo using Camera...
+    private func pickUsingCamera(){
+        let cameraController = UIImagePickerController()
+        cameraController.sourceType = .camera
+        cameraController.allowsEditing = true
+        cameraController.delegate = self
+        present(cameraController, animated: true)
+    }
+    
+    //MARK: pick Photo using Gallery...
+    private func pickPhotoFromGallery(){
+        //MARK: Photo from Gallery...
+        var configuration = PHPickerConfiguration()
+        configuration.filter = PHPickerFilter.any(of: [.images])
+        configuration.selectionLimit = 1
+        
+        let photoPicker = PHPickerViewController(configuration: configuration)
+        
+        photoPicker.delegate = self
+        present(photoPicker, animated: true, completion: nil)
+    }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         if let image = info[.editedImage] as? UIImage {
             customView.profilePhotoButton.setBackgroundImage(image, for: .normal)
@@ -125,40 +168,18 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
         
         dismiss(animated: true, completion: nil)
     }
-
-
     
-    // Called when the user cancels the picker
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        dismiss(animated: true, completion: nil)
-    }
     
-    @objc private func didTapProfilePhotoButton() {
-        // Present image picker to allow the user to choose a photo
-        let imagePickerController = UIImagePickerController()
-        imagePickerController.delegate = self
-        imagePickerController.allowsEditing = true  // Allow editing (cropping)
-
-        // Check if the camera is available and present the photo library if not
-        if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            imagePickerController.sourceType = .camera
-        } else {
-            imagePickerController.sourceType = .photoLibrary
-        }
-        
-        // Present the image picker
-        present(imagePickerController, animated: true)
-    }
     @objc private func didTapSave() {
         guard let user = Auth.auth().currentUser else {
             showAlert(message: "No logged-in user found!")
             return
         }
-
+        
         var updatedData: [String: Any] = [:]
         var updatedBio: String?
         var updatedName: String?
-
+        
         for section in models {
             for model in section {
                 if let value = model.value, !value.isEmpty {
@@ -171,38 +192,41 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
                 }
             }
         }
-
-        // Get the profile photo from the button and convert it to Base64 string
-        if let profilePhoto = customView.profilePhotoButton.backgroundImage(for: .normal),
-           let imageData = profilePhoto.jpegData(compressionQuality: 0.8) {
-            let profilePhotoBase64 = imageData.base64EncodedString()
-            updatedData["profilePhoto"] = profilePhotoBase64
-        }
-
+        
+        
+        
         if let updatedName = models[0][0].value, !updatedName.isEmpty {
             UserDefaults.standard.set(updatedName, forKey: "name")
             NotificationCenter.default.post(name: .nameDidChange, object: nil, userInfo: ["name": updatedName])
         }
-
+        
         if let updatedBio = models[0][1].value, !updatedBio.isEmpty {
             UserDefaults.standard.set(updatedBio, forKey: "bio")
             NotificationCenter.default.post(name: .bioDidChange, object: nil, userInfo: ["bio": updatedBio])
         }
+        
+        if let pickedImage = pickedImage {
+            uploadProfilePhotoToStorage(image: pickedImage) { [weak self] photoURL in
+                self?.updateFirebaseProfilePhoto(photoURL: photoURL)
+            }
+            NotificationCenter.default.post(name: .profilePhotoDidChange, object: nil, userInfo: ["profilePhoto": pickedImage])
 
+        }
+        
         guard let oldEmail = user.email else {
             showAlert(message: "Current email not available.")
             return
         }
-
+        
         if let bio = updatedBio, let name = updatedName {
             NotificationCenter.default.post(name: .bioDidChange, object: nil, userInfo: ["bio": bio, "name": name])
         }
-
+        
         // Continue updating Firestore with profile photo included
         updateFirestoreUserData(email: oldEmail, oldEmail: oldEmail, updatedData: updatedData)
         dismiss(animated: true)
     }
-
+    
     private func updateFirestoreUserData(email: String, oldEmail: String, updatedData: [String: Any]) {
         let db = Firestore.firestore()
         let oldUserRef = db.collection("users").document(oldEmail)
@@ -210,7 +234,7 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
         
         if oldEmail != email {
             oldUserRef.getDocument { (document, error) in
-            
+                
                 if let document = document, document.exists {
                     var existingData = document.data() ?? [:]
                     updatedData.forEach { existingData[$0.key] = $0.value } // Merge updated data
@@ -225,7 +249,7 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
                             if let error = error {
                                 
                             } else {
-                               
+                                
                             }
                         }
                     }
@@ -241,7 +265,72 @@ class EditProfileViewController: UIViewController, UINavigationControllerDelegat
             }
         }
     }
+    
+    func uploadProfilePhotoToStorage(image: UIImage, completion: @escaping (URL?) -> Void) {
+        guard let jpegData = image.jpegData(compressionQuality: 0.8) else {
+            completion(nil)
+            return
+        }
+        
+        let storageRef = Storage.storage().reference().child("profileImages/\(Auth.auth().currentUser?.uid ?? UUID().uuidString).jpg")
+        
+        storageRef.putData(jpegData, metadata: nil) { metadata, error in
+            if let error = error {
+                self.showErrorAlert(alert: "Error uploading photo: \(error.localizedDescription)")
+                completion(nil)
+                return
+            }
+            
+            storageRef.downloadURL { url, error in
+                if let url = url {
+                    completion(url)
+                } else {
+                    self.showErrorAlert(alert: "Error getting download URL")
+                    completion(nil)
+                }
+            }
+        }
+    }
+    
+    func updateFirebaseProfilePhoto(photoURL: URL?) {
+        guard let user = Auth.auth().currentUser else {
+            return
+        }
+        
+        // Update the Firebase Authentication profile photo
+        let changeRequest = user.createProfileChangeRequest()
+        changeRequest.photoURL = photoURL
+        changeRequest.commitChanges { [weak self] error in
+            if let error = error {
+                self?.showErrorAlert(alert: "Error updating profile: \(error.localizedDescription)")
+            } else {
+                // Success in updating the authentication profile
+                print("Profile photo updated successfully in Firebase Authentication.")
+            }
+        }
 
+        // Safely unwrap the userEmail
+        guard let userEmail = user.email else {
+            self.showErrorAlert(alert: "User email not found.")
+            return
+        }
+        
+        // Reference to the Firestore user's document
+        let userRef = database.collection("users").document(userEmail)
+        
+        // Update the profilePhoto field in Firestore with the photo URL string
+        userRef.updateData([
+            "profilePhoto": photoURL?.absoluteString ?? ""
+        ]) { error in
+            if let error = error {
+                self.showErrorAlert(alert: "Error updating Firestore: \(error.localizedDescription)")
+            } else {
+                print("Firestore profile photo updated successfully!")
+            }
+        }
+    }
+
+    
     private func showAlert(message: String) {
         let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default))
@@ -265,6 +354,42 @@ extension EditProfileViewController: FormTableViewCellDelegate {
             }
         }
     }
+    
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        dismiss(animated: true)
+        
+        print(results)
+        
+        let itemprovider = results.map(\.itemProvider)
+        
+        for item in itemprovider{
+            if item.canLoadObject(ofClass: UIImage.self){
+                item.loadObject(
+                    ofClass: UIImage.self,
+                    completionHandler: { (image, error) in
+                        DispatchQueue.main.async{
+                            if let uwImage = image as? UIImage{
+                                self.customView.profilePhotoButton.setBackgroundImage(
+                                    uwImage.withRenderingMode(.alwaysOriginal),
+                                    for: .normal
+                                )
+                                self.pickedImage = uwImage
+                            }
+                        }
+                    }
+                )
+            }
+        }
+    }
+    
+    func showErrorAlert(alert: String){
+        let alert = UIAlertController(title: "Error!", message: alert, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        
+        self.present(alert, animated: true)
+    }
+    
 }
 
 

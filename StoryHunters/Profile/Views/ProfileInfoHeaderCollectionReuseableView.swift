@@ -51,7 +51,6 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
             loadSavedData()
             listenForNameChanges()
             listenForBioChanges()
-            fetchProfilePhotoFromFirestore()
         }
     }
 
@@ -133,31 +132,30 @@ class ProfileInfoHeaderCollectionReuseableView: UICollectionReusableView {
         if let imageData = UserDefaults.standard.data(forKey: "\(userEmail)_profilePhoto"), let savedImage = UIImage(data: imageData) {
             profilePhotoImageView.image = savedImage
         } else {
-            fetchProfilePhotoFromFirestore()
+            fetchProfilePhoto()
         }
     }
-    private func fetchProfilePhotoFromFirestore() {
-        guard let currentUser = Auth.auth().currentUser else { return }
-        let userEmail = currentUser.email ?? "defaultEmail"
-
-        let db = Firestore.firestore()
-        let userRef = db.collection("users").document(userEmail)
-
-        userRef.getDocument { [weak self] (document, error) in
-            if let error = error {
-                print("Error fetching user profile photo: \(error)")
-            } else if let document = document, document.exists {
-                if let base64Photo = document.data()?["profilePhoto"] as? String {
-                    if let photoData = Data(base64Encoded: base64Photo),
-                       let photo = UIImage(data: photoData) {
-                        // Save to UserDefaults
-                        UserDefaults.standard.set(base64Photo, forKey: "profilePhotoBase64")
-                        // Update UI with the fetched photo
-                        self?.profilePhotoImageView.image = photo
-                    }
-                }
-            }
+        
+    private func fetchProfilePhoto() {
+        guard let currentUser = Auth.auth().currentUser,
+              let photoURL = currentUser.photoURL else {
+            // Default image if no photoURL is set
+            profilePhotoImageView.image = UIImage(systemName: "person.circle")
+            return
         }
+        
+        // Download the image from the URL
+        URLSession.shared.dataTask(with: photoURL) { [weak self] data, response, error in
+            guard let self = self, error == nil, let data = data, let image = UIImage(data: data) else {
+                print("Error fetching profile photo: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            // Update UI on the main thread
+            DispatchQueue.main.async {
+                self.profilePhotoImageView.image = image
+            }
+        }.resume()
     }
 
 
